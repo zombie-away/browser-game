@@ -1,8 +1,17 @@
 var game = {};
-
+var Player = require('../player.js');
+var player;
+var bullet;
 game.create = function () {
-  var logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-  logo.anchor.setTo(0.5, 0.5);
+    // background
+    this.game.stage.backgroundColor = "#4488AA";
+    //player
+    this.game.add.existing(
+       new Player(this.game, game.world.centerX, 500)
+    );
 };
+
+game.update = function () {
+}
 
 module.exports = game;
