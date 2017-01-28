@@ -6,6 +6,7 @@ var Player = function (game, x, y) {
     this.anchor.setTo(0.5, 0.5);
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 15;
+    this.body.collideWorldBounds = true;
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
