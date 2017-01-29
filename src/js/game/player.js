@@ -7,6 +7,15 @@ var Player = function (game, x, y) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 15;
     this.body.collideWorldBounds = true;
+
+    var aura = game.add.graphics(0, 0);
+    aura.lineStyle(2, 0xe1e1e1);
+    aura.drawCircle(0, 0, 100);
+    game.physics.enable(aura, Phaser.Physics.ARCADE);
+    aura.anchor.setTo(0.5, 0.5);
+    // aura.body.immovable = true;
+    this.aura = aura;
+    this.addChild(aura);
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
