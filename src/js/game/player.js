@@ -7,15 +7,14 @@ var Player = function (game, x, y) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 15;
     this.body.collideWorldBounds = true;
-
-    var aura = game.add.graphics(0, 0);
-    aura.lineStyle(2, 0xe1e1e1);
-    aura.drawCircle(0, 0, 100);
-    game.physics.enable(aura, Phaser.Physics.ARCADE);
-    aura.anchor.setTo(0.5, 0.5);
-    // aura.body.immovable = true;
-    this.aura = aura;
-    this.addChild(aura);
+    //noise zone
+    var noiseZone = game.add.graphics(0, 0);
+    noiseZone.lineStyle(2, 0xe1e1e1);
+    noiseZone.drawCircle(0, 0, 100);
+    game.physics.enable(noiseZone, Phaser.Physics.ARCADE);
+    noiseZone.anchor.setTo(0.5, 0.5);
+    this.noiseZone = noiseZone;
+    this.addChild(noiseZone);
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -32,7 +31,7 @@ Player.prototype.update = function() {
     );
     var targetAngle = this.game.math.angleBetween(
         this.x, this.y,
-        this.game.input.activePointer.x, this.game.input.activePointer.y
+        this.game.input.activePointer.worldX, this.game.input.activePointer.worldY
     );
     if (this.rotation !== targetAngle) {
         var delta = targetAngle - this.rotation;

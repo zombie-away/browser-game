@@ -82,6 +82,10 @@ module.exports = function (grunt) {
         { files: 'src/images/**/*'
         , tasks: ['copy:images']
         }
+	  , tilemaps:
+        { files: 'src/tilemaps/**/*'
+        , tasks: ['copy:tilemaps']
+        }
       , audio:
         { files: 'src/audio/**/*'
         , tasks: ['copy:audio']
@@ -110,7 +114,7 @@ module.exports = function (grunt) {
 
     , cacheBust:
       { options:
-        { assets: ['audio/**', 'images/**', 'js/**', 'style/**']
+        { assets: ['audio/**', 'images/**', 'js/**', 'style/**', 'tilemaps/**']
         , baseDir: './build/'
         , deleteOriginals: true
         , length: 5
@@ -161,7 +165,12 @@ module.exports = function (grunt) {
         }
 
     , copy:
-      { images:
+      { tilemaps:
+        { files:
+          [ { expand: true, cwd: 'src/tilemaps/', src: ['**'], dest: 'build/tilemaps/' }
+          ]
+        }
+	  ,	images:
         { files:
           [ { expand: true, cwd: 'src/images/', src: ['**'], dest: 'build/images/' }
           ]
@@ -224,6 +233,7 @@ module.exports = function (grunt) {
     , 'jade'
     , 'stylus'
     , 'copy:images'
+	, 'copy:tilemaps'
     , 'copy:audio'
     , 'copy:phaserArcade'
     , 'connect'
@@ -240,6 +250,7 @@ module.exports = function (grunt) {
     , 'stylus'
     , 'uglify'
     , 'copy:images'
+	, 'copy:tilemaps'
     , 'copy:audio'
     , 'copy:phaserArcadeMin'
     , 'cacheBust'
