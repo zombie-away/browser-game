@@ -14,6 +14,7 @@ preloader.preload = function () {
     // this.game.load.image('tiles_house2', 'tilemaps/tiles/house2.jpg');
     // this.game.load.image('tiles_house3', 'tilemaps/tiles/house3.jpg');
 
+    this.game.load.spritesheet('coin', 'images/coin.png', 27, 27);
 };
 
 preloader.create = function () {

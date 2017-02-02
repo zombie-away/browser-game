@@ -3,15 +3,20 @@ var game = {
         bullet.kill();
         zombie.kill();
         this.score += 10;
-        this.scoreTextValue.text = this.score.toString();
     },
     noiseZoneAndZombieCollision: function (noiseZone, zombie) {
         zombie.target = noiseZone.parent;
     },
-    bulletCollision: function (bullet, layer) {
+    bulletCollision: function (bullet) {
         bullet.kill();
     },
-    score: 0
+    coinCollision: function (player, coin) {
+        this.money++;
+        this.score += 5;
+        coin.kill();
+    },
+    score: 0,
+    money: 0
 };
 var Player = require('../player.js');
 var Gun = require('../gun.js');
@@ -37,7 +42,7 @@ game.create = function () {
             244, 245, 246, 247, 248, 249,
             269, 270, 271, 272, 273, 274,
             294, 295, 296, 297, 298, 299,
-            318, 319, 320, 321, 322, 323
+            319, 320, 321, 322, 323, 324
         ], true, game.layer2);
     game.layer2.resizeWorld();
 
@@ -60,6 +65,19 @@ game.create = function () {
     scoreKey.fixedToCamera = true;
     game.scoreTextValue = game.add.text(130, 40, game.score.toString(),  textStyleValue);
     game.scoreTextValue.fixedToCamera = true;
+
+
+    game.coins = game.add.group();
+    game.coins.enableBody = true;
+    game.map.createFromObjects('Obj Layer 1', 'coin', 'coin', 0, true, false, game.coins);
+    game.coins.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5], 10, true);
+    game.coins.callAll('animations.play', 'animations', 'spin');
+
+
+    var moneyKey = game.add.text(32, 70, "MONEY",  textStyleKey);
+    moneyKey.fixedToCamera = true;
+    game.moneyTextValue = game.add.text(130, 70, game.money.toString(),  textStyleValue);
+    game.moneyTextValue.fixedToCamera = true;
 };
 
 game.update = function () {
@@ -82,14 +100,15 @@ game.update = function () {
         null,
         this
     );
+    game.physics.arcade.collide(this.player, this.coins, this.coinCollision, null, this);
 
-    game.scoreTextValue
+    game.scoreTextValue.text = this.score.toString();
+    game.moneyTextValue.text = this.money.toString();
 }
 
 game.render = function () {
     // this.game.debug.bodyInfo(game.player, 16, 24);
-    // this.game.debug.spriteBounds(game.player.aura);
-    // this.game.debug.spriteCorners(game.player.aura, true, true);
+    // this.game.debug.spriteBounds(game.coins);
 }
 
 module.exports = game;
