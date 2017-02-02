@@ -2,13 +2,16 @@ var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
         bullet.kill();
         zombie.kill();
+        this.score += 10;
+        this.scoreTextValue.text = this.score.toString();
     },
     noiseZoneAndZombieCollision: function (noiseZone, zombie) {
         zombie.target = noiseZone.parent;
     },
     bulletCollision: function (bullet, layer) {
         bullet.kill();
-    }
+    },
+    score: 0
 };
 var Player = require('../player.js');
 var Gun = require('../gun.js');
@@ -50,6 +53,13 @@ game.create = function () {
     game.weapon = new Gun(this.game, game.player);
 
     this.game.camera.follow(game.player);
+
+    var textStyleKey = { font: "bold 25px sans-serif", fill: "#46c0f9", align: "center" };
+    var textStyleValue = { font: "bold 25px sans-serif", fill: "#e1e1e1", align: "center" };
+    var scoreKey = game.add.text(32, 40, "SCORE",  textStyleKey);
+    scoreKey.fixedToCamera = true;
+    game.scoreTextValue = game.add.text(130, 40, game.score.toString(),  textStyleValue);
+    game.scoreTextValue.fixedToCamera = true;
 };
 
 game.update = function () {
@@ -72,6 +82,8 @@ game.update = function () {
         null,
         this
     );
+
+    game.scoreTextValue
 }
 
 game.render = function () {
