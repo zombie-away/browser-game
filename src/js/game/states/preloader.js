@@ -15,10 +15,15 @@ preloader.preload = function () {
     // this.game.load.image('tiles_house3', 'tilemaps/tiles/house3.jpg');
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27);
+
+    this.game.load.image('menu', 'images/menu.jpg');
+    this.game.load.image('playBtn', 'images/playbtn.png');
+    this.game.load.image('gameover', 'images/gameover.png');
 };
 
 preloader.create = function () {
-  this.game.state.start('game');
+    this.game.state.start('menu');
+  // this.game.state.start('game');
 };
 
 module.exports = preloader;

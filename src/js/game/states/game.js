@@ -15,6 +15,10 @@ var game = {
         this.score += 5;
         coin.kill();
     },
+    zombieAndPlayerCollision: function (player, zombie) {
+        player.kill();
+        this.game.state.start('gameover', true, false, game.score);
+    },
     score: 0,
     money: 0
 };
@@ -101,6 +105,7 @@ game.update = function () {
         this
     );
     game.physics.arcade.collide(this.player, this.coins, this.coinCollision, null, this);
+    game.physics.arcade.collide(this.player, this.zombies, this.zombieAndPlayerCollision, null, this);
 
     game.scoreTextValue.text = this.score.toString();
     game.moneyTextValue.text = this.money.toString();
