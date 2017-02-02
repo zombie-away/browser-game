@@ -1,5 +1,5 @@
 var PLAYER_FACE_VELOCITY = 150;
-var PLAYER_BACK_VELOCITY = 100;
+var PLAYER_BACK_VELOCITY = 70;
 
 var Player = function (game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'player');
@@ -10,7 +10,7 @@ var Player = function (game, x, y) {
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
-    noiseZone.drawCircle(0, 0, 100);
+    noiseZone.drawCircle(0, 0, 200);
     game.physics.enable(noiseZone, Phaser.Physics.ARCADE);
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
@@ -51,21 +51,31 @@ Player.prototype.update = function() {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     if (cursors.up.isDown) {
-        this.body.velocity.y = - PLAYER_FACE_VELOCITY;
+        this.body.velocity.y = - getVelocity(-90, this.body.rotation);
         this.animations.play('up');
     }
     if (cursors.down.isDown) {
-        this.body.velocity.y = PLAYER_FACE_VELOCITY;
+        this.body.velocity.y = getVelocity(90, this.body.rotation);
         this.animations.play('down');
     }
     if (cursors.left.isDown) {
-        this.body.velocity.x = - PLAYER_FACE_VELOCITY;
+        this.body.velocity.x = - getVelocity(-180, this.body.rotation);
         this.animations.play('left');
     }
     if (cursors.right.isDown) {
-        this.body.velocity.x = PLAYER_FACE_VELOCITY;
+        this.body.velocity.x = getVelocity(0, this.body.rotation);
         this.animations.play('right');
     }
 };
+function getVelocity(moveDirection, playerDirection) {
+    var delta = moveDirection - playerDirection;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    if (Math.abs(delta) >= 90){
+        return PLAYER_BACK_VELOCITY;
+    }
+
+    return PLAYER_FACE_VELOCITY;
+}
 
 module.exports = Player;

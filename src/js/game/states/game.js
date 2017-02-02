@@ -1,4 +1,15 @@
-var game = {};
+var game = {
+    bulletAndZombieCollision: function (bullet, zombie) {
+        bullet.kill();
+        zombie.kill();
+    },
+    noiseZoneAndZombieCollision: function (noiseZone, zombie) {
+        zombie.target = noiseZone.parent;
+    },
+    bulletCollision: function (bullet, layer) {
+        bullet.kill();
+    }
+};
 var Player = require('../player.js');
 var Gun = require('../gun.js');
 var Zombie = require('../zombie.js');
@@ -26,31 +37,41 @@ game.create = function () {
             318, 319, 320, 321, 322, 323
         ], true, game.layer2);
     game.layer2.resizeWorld();
+
+    //zombies
+    game.zombies = this.game.add.group();
+    game.zombies.enableBody = true;
+    game.map.createFromObjects('Obj Layer 1', 'zombie', 'zombie', 0, true, true, game.zombies, Zombie);
+
     //player
     game.player = new Player(this.game, game.world.centerX, game.world.height - 200);
     this.game.add.existing(game.player);
     //weapon
     game.weapon = new Gun(this.game, game.player);
-    //zombie
-    game.zombie = new Zombie(this.game, 0, game.world.centerY);
-    this.game.add.existing(game.zombie);
 
     this.game.camera.follow(game.player);
 };
 
 game.update = function () {
-    game.weapon.update();
+    this.weapon.update();
     //overlap noise zone and zombie
     game.physics.arcade.overlap(
-        game.player.noiseZone,
-        game.zombie,
-        function (noiseZone, zombie) {
-            zombie.target = noiseZone.parent;
-        },
+        this.player.noiseZone,
+        this.zombies,
+        this.noiseZoneAndZombieCollision,
         null,
         this
     );
-    game.physics.arcade.collide(game.player, game.layer2);
+    game.physics.arcade.collide(this.player, this.layer2);
+    game.physics.arcade.collide(this.zombies, this.layer2);
+    game.physics.arcade.collide(this.weapon.bullets, this.layer2, this.bulletCollision, null, this);
+    game.physics.arcade.overlap(
+        this.weapon.bullets,
+        this.zombies,
+        this.bulletAndZombieCollision,
+        null,
+        this
+    );
 }
 
 game.render = function () {

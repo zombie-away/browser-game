@@ -15,7 +15,6 @@ Zombie.prototype.constructor = Zombie;
 Zombie.prototype.update = function() {
     if (this.target) {
         this.game.physics.arcade.moveToObject(this, this.target, 100);
-        console.log(this.target.x);
         var targetAngle = this.game.math.angleBetween(
             this.x, this.y,
             this.target.x, this.target.y
