@@ -17,6 +17,9 @@ var Player = function (game, x, y) {
     this.addChild(noiseZone);
 
     this.backpack = {};
+
+    this.health = 3;
+    this.alive = true;
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -28,7 +31,8 @@ Player.prototype.update = function () {
             'up': Phaser.KeyCode.W,
             'down': Phaser.KeyCode.S,
             'left': Phaser.KeyCode.A,
-            'right': Phaser.KeyCode.D
+            'right': Phaser.KeyCode.D,
+            'recharge': Phaser.KeyCode.R
         }
     );
     var targetAngle = this.game.math.angleBetween(
@@ -69,10 +73,9 @@ Player.prototype.update = function () {
         this.animations.play('right');
     }
 
-    if (this.weapon && this.weapon.bulletsInGun == 0) {
+    if (this.weapon && (this.weapon.bulletsInGun == 0 || cursors.recharge.isDown)) {
         this.rechargeWeapon();
     }
-    // console.log(this.backpack.bullets);
 };
 
 Player.prototype.rechargeWeapon = function () {
@@ -88,6 +91,21 @@ Player.prototype.rechargeWeapon = function () {
             }
         }
     }, 3000);
+};
+
+Player.prototype.damage = function(damage) {
+
+    this.health -= damage;
+
+    if (this.health <= 0)
+    {
+        this.alive = false;
+        this.kill();
+
+        return true;
+    }
+
+    return false;
 };
 
 function getVelocity(moveDirection, playerDirection) {

@@ -7,6 +7,10 @@ var Zombie = function (game, x, y) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 5;
     this.body.collideWorldBounds = true;
+    this.health = 10;
+    this.alive = true;
+    this.attackPower = 1;
+    this.isAttakState = false;
 }
 
 Zombie.prototype = Object.create(Phaser.Sprite.prototype);
@@ -34,8 +38,37 @@ Zombie.prototype.update = function() {
             }
         }
     }
-
 };
+
+Zombie.prototype.damage = function(damage) {
+
+    this.health -= damage;
+
+    if (this.health <= 0)
+    {
+        this.alive = false;
+        this.kill();
+
+        return true;
+    }
+
+    return false;
+};
+
+Zombie.prototype.attack = function (target) {
+    var self = this;
+    if (!this.isAttakState) {
+        console.log(this.isAttakState);
+        this.isAttakState = true;
+        return target.damage(this.attackPower);
+    } else {
+        console.log(this.isAttakState);
+        setTimeout(function () {
+            self.isAttakState = false;
+        }, 1000);
+        return false;
+    }
+}
 
 Zombie.target = null;
 

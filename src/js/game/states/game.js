@@ -1,8 +1,9 @@
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
         bullet.kill();
-        zombie.kill();
-        this.score += 10;
+        if (zombie.damage(5)) {
+            this.score += 10;
+        }
     },
     noiseZoneAndZombieCollision: function (noiseZone, zombie) {
         zombie.target = noiseZone.parent;
@@ -16,8 +17,10 @@ var game = {
         coin.kill();
     },
     zombieAndPlayerCollision: function (player, zombie) {
-        player.kill();
-        this.game.state.start('gameover', true, false, game.score);
+        zombie.attack(player);
+        if (!player.alive) {
+            this.game.state.start('gameover', true, false, game.score);
+        }
     },
     score: 0,
     money: 0
