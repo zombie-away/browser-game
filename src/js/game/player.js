@@ -15,12 +15,14 @@ var Player = function (game, x, y) {
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
+
+    this.backpack = {};
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
-Player.prototype.update = function() {
+Player.prototype.update = function () {
     var cursors = this.game.input.keyboard.addKeys(
         {
             'up': Phaser.KeyCode.W,
@@ -66,7 +68,28 @@ Player.prototype.update = function() {
         this.body.velocity.x = getVelocity(0, this.body.rotation);
         this.animations.play('right');
     }
+
+    if (this.weapon && this.weapon.bulletsInGun == 0) {
+        this.rechargeWeapon();
+    }
+    // console.log(this.backpack.bullets);
 };
+
+Player.prototype.rechargeWeapon = function () {
+    var self = this;
+    setTimeout(function () {
+        if (self.backpack.bullets > 0) {
+            if (self.backpack.bullets <= self.weapon.fireLimit) {
+                self.weapon.bulletsInGun = self.backpack.bullets;
+                self.backpack.bullets = 0;
+            } else {
+                self.backpack.bullets -= self.weapon.fireLimit;
+                self.weapon.bulletsInGun = self.weapon.fireLimit;
+            }
+        }
+    }, 3000);
+};
+
 function getVelocity(moveDirection, playerDirection) {
     var delta = moveDirection - playerDirection;
     if (delta > 180) delta -= 360;

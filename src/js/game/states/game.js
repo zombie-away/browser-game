@@ -57,9 +57,11 @@ game.create = function () {
 
     //player
     game.player = new Player(this.game, game.world.centerX, game.world.height - 200);
+    game.player.backpack.bullets = 2;
     this.game.add.existing(game.player);
     //weapon
     game.weapon = new Gun(this.game, game.player);
+    game.player.weapon = game.weapon;
 
     this.game.camera.follow(game.player);
 
