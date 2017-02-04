@@ -1,5 +1,7 @@
 var Player = require('../player.js');
 var Gun = require('../gun.js');
+var AK47 = require('../ak47.js');
+var Shotgun = require('../shotgun.js');
 var Zombie = require('../zombie.js');
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
@@ -63,7 +65,7 @@ game.create = function () {
     game.player.backpack.bullets = 2;
     this.game.add.existing(game.player);
     //weapon
-    game.weapon = new Gun(this.game, game.player);
+    game.weapon = new Shotgun(this.game, game.player);
     game.player.weapon = game.weapon;
 
     this.game.camera.follow(game.player);
