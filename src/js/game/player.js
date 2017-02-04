@@ -1,12 +1,16 @@
 var PLAYER_FACE_VELOCITY = 150;
 var PLAYER_BACK_VELOCITY = 70;
+var Being = require('./being.js');
 
 var Player = function (game, x, y) {
-    Phaser.Sprite.call(this, game, x, y, 'player');
-    this.anchor.setTo(0.5, 0.5);
-    game.physics.enable(this, Phaser.Physics.ARCADE);
+    Being.call(this, game, x, y, 'player');
+    // Phaser.Sprite.call(this, game, x, y, 'player');
+    // this.anchor.setTo(0.5, 0.5);
+    // game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 15;
-    this.body.collideWorldBounds = true;
+    // this.body.collideWorldBounds = true;
+    this.target = this.game.input.activePointer;
+
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
@@ -17,15 +21,15 @@ var Player = function (game, x, y) {
     this.addChild(noiseZone);
 
     this.backpack = {};
-
     this.health = 3;
     this.alive = true;
 }
 
-Player.prototype = Object.create(Phaser.Sprite.prototype);
+Player.prototype = Object.create(Being.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+    this.turnToTarget({x: this.target.worldX, y: this.target.worldY});
     var cursors = this.game.input.keyboard.addKeys(
         {
             'up': Phaser.KeyCode.W,
@@ -35,25 +39,6 @@ Player.prototype.update = function () {
             'recharge': Phaser.KeyCode.R
         }
     );
-    var targetAngle = this.game.math.angleBetween(
-        this.x, this.y,
-        this.game.input.activePointer.worldX, this.game.input.activePointer.worldY
-    );
-    if (this.rotation !== targetAngle) {
-        var delta = targetAngle - this.rotation;
-
-        if (delta > Math.PI) delta -= Math.PI * 2;
-        if (delta < -Math.PI) delta += Math.PI * 2;
-        if (delta > 0) {
-            this.angle += this.TURN_RATE;
-        } else {
-            this.angle -= this.TURN_RATE;
-        }
-        if (Math.abs(delta) < this.game.math.degToRad(this.TURN_RATE)) {
-            this.rotation = targetAngle;
-        }
-    }
-
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     if (cursors.up.isDown) {
@@ -91,21 +76,6 @@ Player.prototype.rechargeWeapon = function () {
             }
         }
     }, 3000);
-};
-
-Player.prototype.damage = function(damage) {
-
-    this.health -= damage;
-
-    if (this.health <= 0)
-    {
-        this.alive = false;
-        this.kill();
-
-        return true;
-    }
-
-    return false;
 };
 
 function getVelocity(moveDirection, playerDirection) {

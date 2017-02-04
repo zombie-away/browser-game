@@ -1,3 +1,6 @@
+var Player = require('../player.js');
+var Gun = require('../gun.js');
+var Zombie = require('../zombie.js');
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
         bullet.kill();
@@ -25,9 +28,6 @@ var game = {
     score: 0,
     money: 0
 };
-var Player = require('../player.js');
-var Gun = require('../gun.js');
-var Zombie = require('../zombie.js');
 game.create = function () {
     game.map = this.game.add.tilemap('map');
     game.map.addTilesetImage('tiles', 'tiles');
