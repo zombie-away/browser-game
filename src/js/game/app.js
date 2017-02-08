@@ -13,6 +13,5 @@ var _ = require('lodash'),
 _.each(states, function(state, key) {
     game.state.add(key, state);
 });
-var r = '123';
 
 game.state.start('boot');

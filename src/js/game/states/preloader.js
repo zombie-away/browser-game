@@ -7,8 +7,18 @@ preloader.preload = function () {
     this.game.load.image('zombie', 'images/zombie.png');
     this.game.load.image('aura', 'images/playerzone.png');
 
-    this.game.load.tilemap('map', 'tilemaps/maps/t_level_1.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.image('tiles', 'tilemaps/tiles/var2/tiles.png');
+    this.game.load.tilemap('map', 'tilemaps/maps/lvl1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.image('tiles', 'tilemaps/tiles/tileset.png');
+
+    // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
+    // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
+    // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
+    // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
+    // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
+
+    // this.game.load.tilemap('map', 'tilemaps/maps/t_level_1.json', null, Phaser.Tilemap.TILED_JSON);
+    // this.game.load.image('tiles', 'tilemaps/tiles/var2/tiles.png');
+
     // this.game.load.image('tiles_grass', 'tilemaps/tiles/grass.jpg');
     // this.game.load.image('tiles_pavement', 'tilemaps/tiles/pavement.jpg');
     // this.game.load.image('tiles_house1', 'tilemaps/tiles/house1.jpg');

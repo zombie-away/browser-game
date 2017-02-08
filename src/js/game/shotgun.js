@@ -11,6 +11,7 @@ var Shotgun = function (game, parent) {
     this.bulletSpeedVariance = 10;
 
     this.nextFire = 0;
+    this.name = 'shotgun';
 }
 
 Shotgun.prototype = Object.create(Weapon.prototype);

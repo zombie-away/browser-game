@@ -4,11 +4,7 @@ var Being = require('./being.js');
 
 var Player = function (game, x, y) {
     Being.call(this, game, x, y, 'player');
-    // Phaser.Sprite.call(this, game, x, y, 'player');
-    // this.anchor.setTo(0.5, 0.5);
-    // game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 15;
-    // this.body.collideWorldBounds = true;
     this.target = this.game.input.activePointer;
 
     //noise zone
@@ -20,7 +16,12 @@ var Player = function (game, x, y) {
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
 
-    this.backpack = {};
+    this.backpack = {
+        weapons: [],
+        bullets: {
+            gun: 10
+        }
+    };
     this.health = 3;
     this.alive = true;
 }
@@ -66,12 +67,13 @@ Player.prototype.update = function () {
 Player.prototype.rechargeWeapon = function () {
     var self = this;
     setTimeout(function () {
-        if (self.backpack.bullets > 0) {
-            if (self.backpack.bullets <= self.weapon.fireLimit) {
-                self.weapon.bulletsInGun = self.backpack.bullets;
+        var weaponBullets = self.backpack.bullets[self.weapon.name];
+        if (weaponBullets) {
+            if (weaponBullets <= self.weapon.fireLimit) {
+                self.weapon.bulletsInGun = weaponBullets;
                 self.backpack.bullets = 0;
             } else {
-                self.backpack.bullets -= self.weapon.fireLimit;
+                weaponBullets -= self.weapon.fireLimit;
                 self.weapon.bulletsInGun = self.weapon.fireLimit;
             }
         }

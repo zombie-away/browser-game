@@ -4,6 +4,7 @@ var Gun = function (game, parent) {
     // this.bulletSpeed = 600;
     // this.fireRate = 500;
     this.bulletsInGun = this.fireLimit = 10;
+    this.name = 'gun';
 }
 // bulletSpeed, fireRate, bulletsInHolder
 
