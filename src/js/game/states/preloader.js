@@ -8,7 +8,12 @@ preloader.preload = function () {
     this.game.load.image('aura', 'images/playerzone.png');
 
     this.game.load.tilemap('map', 'tilemaps/maps/lvl1.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.image('tiles', 'tilemaps/tiles/tileset.png');
+    this.game.load.image('tiles', 'tilemaps/tiles/tileset.png', 40, 68);
+    this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png', 40, 68);
+
+    // this.game.load.tilemap('map', 'tilemaps/maps/test.json', null, Phaser.Tilemap.TILED_JSON);
+    // this.game.load.image('tiles', 'tilemaps/tiles/tileset.png');
+    // this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png');
 
     // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
     // this.game.load.image('tiles', 'tilemaps/maps/tileset.tsx');
