@@ -38,6 +38,14 @@ var textStyleValue = { font: "bold 25px sans-serif", fill: "#e1e1e1", align: "ce
 game.create = function () {
     this.game.stage.backgroundColor = "#e1e1e1";
     game.worldMap = new WorldLoader(this.game, 'map');
+
+    // var cursor = game.add.sprite(0, 0, 'cursor');
+    // cursor.anchor.setTo(0.5, 0.5);
+    // game.physics.enable(cursor, Phaser.Physics.ARCADE);
+    game.input.addMoveCallback( function(pointer, x, y) {
+        // console.log(cursor);
+        // cursor.worldPosition = pointer.worldPosition;
+    });
     //player
     game.player = new Player(this.game, game.world.centerX, game.world.height);
     this.game.add.existing(game.player);

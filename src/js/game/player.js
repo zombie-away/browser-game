@@ -4,7 +4,7 @@ var Being = require('./being.js');
 
 var Player = function (game, x, y) {
     Being.call(this, game, x, y, 'player');
-    this.TURN_RATE = 15;
+    this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
 
     //noise zone

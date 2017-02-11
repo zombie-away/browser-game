@@ -1,7 +1,9 @@
 var Stats = require('Stats')
   , properties = require('../properties')
   , boot = {};
-
+boot.init = function () {
+    
+}
 boot.create = function () {
 
   if (properties.showStats) {

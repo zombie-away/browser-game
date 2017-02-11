@@ -6,6 +6,8 @@ preloader.preload = function () {
     this.game.load.image('shot', 'images/shot.png');
     this.game.load.image('zombie', 'images/zombie.png');
     this.game.load.image('aura', 'images/playerzone.png');
+    this.game.load.image('cursor', 'images/cursor.png');
+
 
     this.game.load.tilemap('map', 'tilemaps/maps/lvl1.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('tiles', 'tilemaps/tiles/tileset.png', 40, 68);
