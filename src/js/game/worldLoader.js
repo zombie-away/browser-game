@@ -1,12 +1,20 @@
 var properties = require('./properties');
 var Zombie = require('./zombie.js');
+var Player = require('./player.js');
 var WorldLoader = function (game, map, tilesets) {
+    game.stage.backgroundColor = "#e1e1e1";
     this.map = game.add.tilemap(map);
     this.map.addTilesetImage('tileset', 'tiles');
     this.map.addTilesetImage('collisiontile', 'collisionTile');
 
+
     this.createLayer('collisions', 'collisionLayer');
     this.createLayer('base', 'baseLayer');
+
+    this.zombies = game.add.group();
+    this.zombies.enableBody = true;
+    this.map.createFromObjects('meta', 'zombie', 'zombie', 0, true, true, this.zombies, Zombie);
+
     this.createLayer('second', 'secondLayer');
     this.createLayer('third', 'thirdLayer');
     this.createLayer('fourth', 'fourthLayer');
@@ -19,10 +27,6 @@ var WorldLoader = function (game, map, tilesets) {
     layerOffset(this.shadowLayer);
 
     this.map.setCollision([38]);
-
-    this.zombies = game.add.group();
-    this.zombies.enableBody = true;
-    this.map.createFromObjects('meta', 'zombie', 'zombie', 0, true, true, this.zombies, Zombie);
 
     this.coins = game.add.group();
     this.coins.enableBody = true;

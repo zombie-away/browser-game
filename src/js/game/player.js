@@ -19,12 +19,14 @@ var Player = function (game, x, y) {
     this.backpack = {
         weapons: [],
         bullets: {
-            gun: 10,
+            gun: Infinity,
             shotgun: 2
         }
     };
     this.health = 3;
     this.alive = true;
+
+    this.rechargeState = false;
 }
 
 Player.prototype = Object.create(Being.prototype);
@@ -61,7 +63,10 @@ Player.prototype.update = function () {
     }
 
     if (this.weapon && (this.weapon.bulletsInGun == 0 || cursors.recharge.isDown)) {
-        this.rechargeWeapon();
+        if (!this.rechargeState) {
+            this.rechargeWeapon();
+            this.rechargeState = true;
+        }
     }
 };
 
@@ -78,6 +83,7 @@ Player.prototype.rechargeWeapon = function () {
                 self.weapon.bulletsInGun = self.weapon.fireLimit;
             }
         }
+        this.rechargeState = false;
     }, 3000);
 };
 

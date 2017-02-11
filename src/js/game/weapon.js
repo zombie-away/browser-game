@@ -15,13 +15,12 @@ var Weapon = function (game, parent, bulletKey) {
         this.bulletsInGun--;
     }, this);
 }
-// bulletSpeed, fireRate, bulletsInHolder
 
 Weapon.prototype = Object.create(Phaser.Weapon.prototype);
 Weapon.prototype.constructor = Weapon;
 
 Weapon.prototype.update = function() {
-    if (this.game.input.activePointer.leftButton.isDown) {
+    if (this.game.input.activePointer.leftButton.isDown && this.bulletsInGun > 0) {
         this.fire();
     }
     this.shots = this.fireLimit - this.bulletsInGun;

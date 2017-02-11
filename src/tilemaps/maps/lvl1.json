@@ -166,6 +166,18 @@
                  "width":19.9999999999999,
                  "x":570.666666666667,
                  "y":3525.33333333334
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "id":11,
+                 "name":"player",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":621.333333333333,
+                 "y":3313.33333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -174,7 +186,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":10,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":16,
