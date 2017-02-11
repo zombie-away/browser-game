@@ -8,6 +8,12 @@ var Weapon = function (game, parent, bulletKey) {
     this.fireLimit = 10;
     this.bulletsInGun = 10;
     this.isNoBullets = false;
+    this.bulletPower = 5;
+
+    this.onFire.add(function (bullet, weapon) {
+        bullet.power = this.bulletPower;
+        this.bulletsInGun--;
+    }, this);
 }
 // bulletSpeed, fireRate, bulletsInHolder
 
@@ -16,12 +22,28 @@ Weapon.prototype.constructor = Weapon;
 
 Weapon.prototype.update = function() {
     if (this.game.input.activePointer.leftButton.isDown) {
-        if (this.fire()) {
-            this.bulletsInGun--;
-        }
+        this.fire();
     }
     this.shots = this.fireLimit - this.bulletsInGun;
 };
+
+Weapon.prototype.multyFire = function (fireCount) {
+    if (this.game.time.time > this.nextFire) {
+        this.nextFire = this.game.time.time + this.fireRate;
+        //Костылище
+        var fireRate = this.fireRate;
+        this.fireRate = 0;
+        if (this.fire()) {
+            this.shots -= fireCount - 1;
+            this.bulletsInGun += fireCount - 1;
+            for (var i = 0; i < fireCount - 1; i++) {
+                this.fire();
+            }
+        }
+        this.fireRate = fireRate;
+    }
+};
+
 
 // Weapon.prototype.recharge = function () {
 //     setTimeout(function () {

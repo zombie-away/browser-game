@@ -5,6 +5,8 @@ var AK47 = function (game, parent) {
     this.fireRate = 100;
     this.bulletsInGun = this.fireLimit = 30;
     this.name = 'ak47';
+
+    this.bulletPower = 6;
 }
 
 AK47.prototype = Object.create(Weapon.prototype);

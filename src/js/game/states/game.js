@@ -6,10 +6,10 @@ var Shotgun = require('../shotgun.js');
 var WorldLoader = require('../worldLoader.js');
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
-        bullet.kill();
-        if (zombie.damage(5)) {
+        if (zombie.damage(bullet.power)) {
             this.score += 10;
         }
+        bullet.kill();
     },
     noiseZoneAndZombieCollision: function (noiseZone, zombie) {
         zombie.target = noiseZone.parent;
@@ -50,7 +50,7 @@ game.create = function () {
     game.player = new Player(this.game, game.world.centerX, game.world.height);
     this.game.add.existing(game.player);
     //weapon
-    game.weapon = new Gun(this.game, game.player);
+    game.weapon = new Shotgun(this.game, game.player);
     game.player.weapon = game.weapon;
 
     this.game.camera.follow(game.player);

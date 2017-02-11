@@ -12,6 +12,8 @@ var Shotgun = function (game, parent) {
 
     this.nextFire = 0;
     this.name = 'shotgun';
+
+    this.bulletPower = 2;
 }
 
 Shotgun.prototype = Object.create(Weapon.prototype);
@@ -19,21 +21,7 @@ Shotgun.prototype.constructor = Shotgun;
 
 Shotgun.prototype.update = function () {
     if (this.game.input.activePointer.leftButton.isDown) {
-        //Костылище
-        if (this.game.time.time > this.nextFire) {
-            this.nextFire = this.game.time.time + this.fireRate;
-            var fireRate = this.fireRate;
-            this.fireRate = 0;
-            if (this.fire()) {
-                this.shots -= 4;
-                this.fire();
-                this.fire();
-                this.fire();
-                this.fire();
-                this.bulletsInGun--;
-            }
-            this.fireRate = fireRate;
-        }
+        this.multyFire(5);
     }
     this.shots = this.fireLimit - this.bulletsInGun;
 };

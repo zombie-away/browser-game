@@ -19,7 +19,8 @@ var Player = function (game, x, y) {
     this.backpack = {
         weapons: [],
         bullets: {
-            gun: 10
+            gun: 10,
+            shotgun: 2
         }
     };
     this.health = 3;
