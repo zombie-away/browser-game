@@ -5,6 +5,7 @@ preloader.preload = function () {
     this.game.load.image('bullet', 'images/bullet.png');
     this.game.load.image('shot', 'images/shot.png');
     this.game.load.image('zombie', 'images/zombie.png');
+    this.game.load.image('deadZombie', 'images/deadzombie.png');
     this.game.load.image('aura', 'images/playerzone.png');
     this.game.load.image('cursor', 'images/cursor.png');
 

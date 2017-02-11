@@ -54,12 +54,9 @@ Being.prototype.damage = function(damage) {
 Being.prototype.attack = function (target) {
     var self = this;
     if (!this.isAttakState) {
-        console.log(this.isAttakState);
         this.isAttakState = true;
-
         return target.damage(this.attackPower);
     } else {
-        console.log(this.isAttakState);
         setTimeout(function () {
             self.isAttakState = false;
         }, 1000);

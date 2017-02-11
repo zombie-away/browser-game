@@ -23,7 +23,9 @@ var game = {
         coin.kill();
     },
     zombieAndPlayerCollision: function (player, zombie) {
-        zombie.attack(player);
+        // if (zombie.alive) {
+            zombie.attack(player);
+        // }
         if (!player.alive) {
             this.game.state.start('gameover', true, false, game.score);
         }
@@ -89,11 +91,14 @@ game.update = function () {
 
     game.scoreTextValue.text = this.score.toString();
     game.moneyTextValue.text = this.money.toString();
+
+    game.player.z = 110;
 }
 
 game.render = function () {
     // this.game.debug.bodyInfo(game.player, 16, 24);
     // this.game.debug.spriteBounds(game.coins);
+    this.game.debug.text('Sprite z-depth: ' + game.player.z, 10, 20);
 }
 
 module.exports = game;
