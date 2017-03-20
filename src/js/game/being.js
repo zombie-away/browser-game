@@ -9,6 +9,8 @@ var Being = function (game, x, y, key) {
     this.attackPower = 1;
     this.isAttakState = false;
     this.target = null;
+    this.maxHealth = 10;
+    this.onHealthChange = new Phaser.Signal();
 }
 
 Being.prototype = Object.create(Phaser.Sprite.prototype);
@@ -41,6 +43,7 @@ Being.prototype.update = function() {
 
 Being.prototype.damage = function(damage) {
     this.health -= damage;
+    this.onHealthChange.dispatch((this.health / this.maxHealth) * 100);
     if (this.health <= 0) {
         this.alive = false;
         this.kill();
@@ -63,6 +66,6 @@ Being.prototype.attack = function (target) {
 
         return false;
     }
-}
+};
 
 module.exports = Being;

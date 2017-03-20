@@ -2,6 +2,7 @@ var Player = require('../player.js');
 var Gun = require('../gun.js');
 var AK47 = require('../ak47.js');
 var Shotgun = require('../shotgun.js');
+var HealthBar = require('../HealthBar.js');
 
 var WorldLoader = require('../worldLoader.js');
 var game = {
@@ -47,13 +48,22 @@ game.create = function () {
         // cursor.worldPosition = pointer.worldPosition;
     });
     //player
-    game.player = new Player(this.game, game.world.centerX, game.world.height);
+    // game.player = new Player(this.game, game.world.centerX, game.world.height);
+    game.player = game.worldMap.player;
     this.game.add.existing(game.player);
     //weapon
     game.weapon = new Gun(this.game, game.player);
     game.player.weapon = game.weapon;
 
     this.game.camera.follow(game.player);
+
+    var barConfig = {x: 150, y: game.camera.view.height - 100};
+	game.healthBar = new HealthBar(this.game, barConfig);
+    console.log(game.healthBar);
+    game.healthBar.setFixedToCamera(true);
+    game.player.onHealthChange.add(function (percent) {
+        game.healthBar.setPercent(percent);
+    });
 
     var scoreKey = game.add.text(32, 40, "SCORE",  textStyleKey);
     scoreKey.fixedToCamera = true;
@@ -91,14 +101,12 @@ game.update = function () {
 
     game.scoreTextValue.text = this.score.toString();
     game.moneyTextValue.text = this.money.toString();
-
-    game.player.z = 110;
 }
 
 game.render = function () {
     // this.game.debug.bodyInfo(game.player, 16, 24);
     // this.game.debug.spriteBounds(game.coins);
-    this.game.debug.text('Sprite z-depth: ' + game.player.z, 10, 20);
+    // this.game.debug.text('Sprite z-depth: ' + sprite.z, 10, 20);
 }
 
 module.exports = game;

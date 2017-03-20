@@ -7,7 +7,6 @@ var WorldLoader = function (game, map, tilesets) {
     this.map.addTilesetImage('tileset', 'tiles');
     this.map.addTilesetImage('collisiontile', 'collisionTile');
 
-
     this.createLayer('collisions', 'collisionLayer');
     this.createLayer('base', 'baseLayer');
 
@@ -19,6 +18,15 @@ var WorldLoader = function (game, map, tilesets) {
     this.createLayer('third', 'thirdLayer');
     this.createLayer('fourth', 'fourthLayer');
     this.createLayer('shadow', 'shadowLayer');
+
+    this.players = game.add.group();
+    this.players.enableBody = true;
+    this.map.createFromObjects('meta', 'player', 'player', 0, true, true, this.players, Player);
+    this.player = this.players.children[0];
+    if (!this.players.length) {
+        this.player = new Player(game, game.world.centerX, game.world.height);
+    }
+    // game.player = new Player(this.game, game.world.centerX, game.world.height);
 
     layerOffset(this.baseLayer);
     layerOffset(this.secondLayer);
