@@ -61,9 +61,11 @@ game.create = function () {
     game.player = game.worldMap.player;
     this.game.add.existing(game.player);
     //weapon
-    game.weapon = new Gun(this.game, game.player);
-    game.player.weapon = game.weapon;
-    game.player.backpack.weapons.push(game.weapon);
+    var gun = new Gun(this.game, game.player);
+    var shotgun = new Shotgun(this.game, game.player);
+    game.player.weapon = gun;
+    game.player.backpack.weapons.push(gun);
+    game.player.backpack.weapons.push(shotgun);
 
     this.game.camera.follow(game.player);
 
@@ -118,7 +120,7 @@ game.create = function () {
 };
 
 game.update = function () {
-    this.weapon.update();
+    this.player.weapon.update();
     //overlap noise zone and zombie
     game.physics.arcade.overlap(
         this.player.noiseZone,
@@ -129,9 +131,9 @@ game.update = function () {
     );
     game.physics.arcade.collide(this.player, this.worldMap.collisionLayer);
     game.physics.arcade.collide(this.worldMap.zombies, this.worldMap.collisionLayer);
-    game.physics.arcade.collide(this.weapon.bullets, this.worldMap.collisionLayer, this.bulletCollision, null, this);
+    game.physics.arcade.collide(this.player.weapon.bullets, this.worldMap.collisionLayer, this.bulletCollision, null, this);
     game.physics.arcade.overlap(
-        this.weapon.bullets,
+        this.player.weapon.bullets,
         this.worldMap.zombies,
         this.bulletAndZombieCollision,
         null,

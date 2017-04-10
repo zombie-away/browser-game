@@ -1,6 +1,9 @@
 var properties = require('./properties');
 var Zombie = require('./zombie.js');
 var Player = require('./player.js');
+var Coin = require('./box/coin.js');
+console.log(Coin);
+
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
     this.map = game.add.tilemap(map);
@@ -40,9 +43,9 @@ var WorldLoader = function (game, map, tilesets) {
 
     this.coins = game.add.group();
     this.coins.enableBody = true;
-    this.map.createFromObjects('meta', 'coin', 'coin', 0, true, false, this.coins);
-    this.coins.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5], 10, true);
-    this.coins.callAll('animations.play', 'animations', 'spin');
+    this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
+    // this.coins.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5], 10, true);
+    // this.coins.callAll('animations.play', 'animations', 'spin');
 
 };
 

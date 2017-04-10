@@ -68,6 +68,8 @@ Player.prototype.update = function () {
             this.rechargeState = true;
         }
     }
+
+    weaponChangeHandler(this);
 };
 
 Player.prototype.rechargeWeapon = function () {
@@ -96,6 +98,27 @@ function getVelocity(moveDirection, playerDirection) {
     }
 
     return PLAYER_FACE_VELOCITY;
+}
+
+function weaponChangeHandler(player) {
+    var keys = player.game.input.keyboard.addKeys(
+        {
+            'firstWeapon': Phaser.KeyCode.ONE,
+            'secondWeapon': Phaser.KeyCode.TWO,
+            'thridWeapon': Phaser.KeyCode.THREE
+        }
+    );
+
+    if (keys.firstWeapon.isDown && player.backpack.weapons[0]) {
+        player.weapon = player.backpack.weapons[0];
+    }
+    if (keys.secondWeapon.isDown && player.backpack.weapons[1]) {
+        player.weapon = player.backpack.weapons[1];
+    }
+    if (keys.thridWeapon.isDown && player.backpack.weapons[2]) {
+        player.weapon = player.backpack.weapons[2];
+    }
+
 }
 
 module.exports = Player;
