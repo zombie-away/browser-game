@@ -15,11 +15,11 @@ var Player = function (game, x, y) {
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
-
     this.backpack = {
         weapons: [],
         bullets: {
-            gun: Infinity,
+            // Infinity
+            gun: 1000,
             shotgun: 2
         }
     };
@@ -62,7 +62,7 @@ Player.prototype.update = function () {
         this.animations.play('right');
     }
 
-    if (this.weapon && (this.weapon.bulletsInGun == 0 || cursors.recharge.isDown)) {
+    if (this.weapon && (this.weapon.bulletsInGun === 0 || cursors.recharge.isDown)) {
         if (!this.rechargeState) {
             this.rechargeWeapon();
             this.rechargeState = true;
@@ -77,13 +77,13 @@ Player.prototype.rechargeWeapon = function () {
         if (weaponBullets) {
             if (weaponBullets <= self.weapon.fireLimit) {
                 self.weapon.bulletsInGun = weaponBullets;
-                self.backpack.bullets = 0;
+                self.backpack.bullets[self.weapon.name] = 0;
             } else {
-                weaponBullets -= self.weapon.fireLimit;
+                self.backpack.bullets[self.weapon.name] -= self.weapon.fireLimit;
                 self.weapon.bulletsInGun = self.weapon.fireLimit;
             }
         }
-        this.rechargeState = false;
+        self.rechargeState = false;
     }, 3000);
 };
 

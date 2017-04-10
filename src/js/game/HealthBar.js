@@ -38,8 +38,8 @@ HealthBar.prototype.setupConfiguration = function (providedConfig) {
 
 HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
     var defaultConfig= {
-        width: 250,
-        height: 20,
+        width: 150,
+        height: 15,
         x: 0,
         y: 3500,
         bg: {

@@ -8,6 +8,16 @@ var WorldLoader = function (game, map, tilesets) {
     this.map.addTilesetImage('collisiontile', 'collisionTile');
 
     this.createLayer('collisions', 'collisionLayer');
+
+    this.players = game.add.group();
+    this.players.enableBody = true;
+    this.map.createFromObjects('meta', 'player', 'player', 0, true, true, this.players, Player);
+    this.player = this.players.children[0];
+    if (!this.players.length) {
+        this.player = new Player(game, game.world.centerX, game.world.height);
+    }
+    // game.player = new Player(this.game, game.world.centerX, game.world.height);
+
     this.createLayer('base', 'baseLayer');
 
     this.zombies = game.add.group();
@@ -19,14 +29,6 @@ var WorldLoader = function (game, map, tilesets) {
     this.createLayer('fourth', 'fourthLayer');
     this.createLayer('shadow', 'shadowLayer');
 
-    this.players = game.add.group();
-    this.players.enableBody = true;
-    this.map.createFromObjects('meta', 'player', 'player', 0, true, true, this.players, Player);
-    this.player = this.players.children[0];
-    if (!this.players.length) {
-        this.player = new Player(game, game.world.centerX, game.world.height);
-    }
-    // game.player = new Player(this.game, game.world.centerX, game.world.height);
 
     layerOffset(this.baseLayer);
     layerOffset(this.secondLayer);

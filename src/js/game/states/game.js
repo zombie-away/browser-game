@@ -3,6 +3,15 @@ var Gun = require('../gun.js');
 var AK47 = require('../ak47.js');
 var Shotgun = require('../shotgun.js');
 var HealthBar = require('../HealthBar.js');
+var lifePanelConst = require('../constants/lifePanel.js');
+var textStyleKey = require('../constants/textStyle.js').textStyleKey;
+var textStyleValue = require('../constants/textStyle.js').textStyleValue;
+
+function addSprite(game, coords, spriteName) {
+    var lifePanel = game.add.sprite(coords.x, coords.y, spriteName);
+    lifePanel.fixedToCamera = true;
+    lifePanel.anchor.setTo(0.5, 0.5);
+}
 
 var WorldLoader = require('../worldLoader.js');
 var game = {
@@ -35,8 +44,8 @@ var game = {
     money: 0
 };
 
-var textStyleKey = { font: "bold 25px sans-serif", fill: "#46c0f9", align: "center" };
-var textStyleValue = { font: "bold 25px sans-serif", fill: "#e1e1e1", align: "center" };
+
+
 
 game.create = function () {
     game.worldMap = new WorldLoader(this.game, 'map');
@@ -54,21 +63,53 @@ game.create = function () {
     //weapon
     game.weapon = new Gun(this.game, game.player);
     game.player.weapon = game.weapon;
+    game.player.backpack.weapons.push(game.weapon);
 
     this.game.camera.follow(game.player);
 
-    var barConfig = {x: 150, y: game.camera.view.height - 100};
-	game.healthBar = new HealthBar(this.game, barConfig);
-    console.log(game.healthBar);
+    // game.lifePanelGroup.create(10, 10, 'lifePanel');
+    var panelCoordinates = {x: lifePanelConst.panelX, y: lifePanelConst.panelY};
+    addSprite(game, panelCoordinates, 'lifePanel');
+
+    var heartCoordinates = {x: lifePanelConst.heartX, y: lifePanelConst.heartY};
+    addSprite(game, heartCoordinates, 'heartForLifePanel');
+
+    var gunImagesCoordinates = {
+        x: lifePanelConst.gunForLifePanelX,
+        y: lifePanelConst.gunForLifePanelY
+    };
+    addSprite(game, gunImagesCoordinates, 'gunForLifePanel');
+
+
+    game.healthBar = new HealthBar(this.game, {x: lifePanelConst.healthBarX, y: lifePanelConst.healthBarY});
     game.healthBar.setFixedToCamera(true);
     game.player.onHealthChange.add(function (percent) {
         game.healthBar.setPercent(percent);
     });
 
+
+    game.bulletsTextValue = game.add.text(
+        lifePanelConst.bulletsTextX,
+        lifePanelConst.bulletsTextY,
+        '/' + game.player.backpack.bullets[game.player.weapon.name].toString(),
+        textStyleValue
+    );
+    game.bulletsTextValue.fixedToCamera = true;
+
+    game.bulletsInGunTextValue = game.add.text(
+        lifePanelConst.bulletsInGunTextX,
+        lifePanelConst.bulletsInGunTextY,
+        game.player.weapon.bulletsInGun.toString(),
+        textStyleValue
+    );
+    game.bulletsInGunTextValue.fixedToCamera = true;
+
     var scoreKey = game.add.text(32, 40, "SCORE",  textStyleKey);
     scoreKey.fixedToCamera = true;
+
     game.scoreTextValue = game.add.text(130, 40, game.score.toString(),  textStyleValue);
     game.scoreTextValue.fixedToCamera = true;
+
 
     var moneyKey = game.add.text(32, 70, "MONEY",  textStyleKey);
     moneyKey.fixedToCamera = true;
@@ -101,6 +142,8 @@ game.update = function () {
 
     game.scoreTextValue.text = this.score.toString();
     game.moneyTextValue.text = this.money.toString();
+    game.bulletsInGunTextValue.text = game.player.weapon.bulletsInGun;
+    game.bulletsTextValue.text = '/' + game.player.backpack.bullets[game.player.weapon.name];
 }
 
 game.render = function () {
