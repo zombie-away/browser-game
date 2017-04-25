@@ -7,6 +7,22 @@ var lifePanelConst = require('../constants/lifePanel.js');
 var textStyleKey = require('../constants/textStyle.js').textStyleKey;
 var textStyleValue = require('../constants/textStyle.js').textStyleValue;
 
+function createPlayer() {
+
+}
+
+function createMap() {
+
+}
+
+function musicPlay(game) {
+    game.input.touch.preventDefault = false;
+
+    var music = game.add.audio('game');
+
+    music.play();
+}
+
 function addSprite(game, coords, spriteName) {
     var lifePanel = game.add.sprite(coords.x, coords.y, spriteName);
     lifePanel.fixedToCamera = true;
@@ -44,10 +60,8 @@ var game = {
     money: 0
 };
 
-
-
-
 game.create = function () {
+    // musicPlay(game);
     game.worldMap = new WorldLoader(this.game, 'map');
     // var cursor = game.add.sprite(0, 0, 'cursor');
     // cursor.anchor.setTo(0.5, 0.5);

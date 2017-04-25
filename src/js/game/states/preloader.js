@@ -21,6 +21,8 @@ preloader.preload = function () {
     this.game.load.image('menu', 'images/menu.jpg');
     this.game.load.image('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
+
+    this.game.load.audio('game', ['../../audio/game.mp3']);
 };
 
 preloader.create = function () {
