@@ -10,7 +10,7 @@ var Player = function (game, x, y) {
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
-    noiseZone.drawCircle(0, 0, 200);
+    noiseZone.drawCircle(0, 0, 700);
     game.physics.enable(noiseZone, Phaser.Physics.ARCADE);
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
