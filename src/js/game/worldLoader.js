@@ -24,9 +24,10 @@ var WorldLoader = function (game, map, tilesets) {
 
     this.spawners = game.add.group();
     this.spawners.enableBody = true;
+    Spawner.zombies = game.add.group();
     this.map.createFromObjects('meta', 'spawner', 'spawner', 0, true, true, this.spawners, Spawner);
+
     this.zombies = Spawner.zombies;
-    console.log(this.zombies);
 
     this.createLayer('second', 'secondLayer');
     this.createLayer('third', 'thirdLayer');

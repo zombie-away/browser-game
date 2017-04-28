@@ -129,9 +129,9 @@ game.create = function () {
 };
 
 game.update = function () {
+    // console.log(game.worldMap.zombies);
     game.player.weapon.update();
     //overlap noise zone and zombie
-    // console.log(game.worldMap.zombies);
     game.physics.arcade.overlap(
         game.player.noiseZone,
         game.worldMap.zombies,
