@@ -6,7 +6,7 @@ var Player = function (game, x, y) {
     Being.call(this, game, x, y, 'player');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
-
+    this.maxHealth = 3;
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
@@ -73,20 +73,28 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.rechargeWeapon = function () {
-    var self = this;
     setTimeout(function () {
-        var weaponBullets = self.backpack.bullets[self.weapon.name];
+        var weaponBullets = this.backpack.bullets[this.weapon.name];
         if (weaponBullets) {
-            if (weaponBullets <= self.weapon.fireLimit) {
-                self.weapon.bulletsInGun = weaponBullets;
-                self.backpack.bullets[self.weapon.name] = 0;
+            if (weaponBullets <= this.weapon.fireLimit) {
+                this.weapon.bulletsInGun = weaponBullets;
+                this.backpack.bullets[this.weapon.name] = 0;
             } else {
-                self.backpack.bullets[self.weapon.name] -= self.weapon.fireLimit;
-                self.weapon.bulletsInGun = self.weapon.fireLimit;
+                this.backpack.bullets[this.weapon.name] -= this.weapon.fireLimit;
+                this.weapon.bulletsInGun = this.weapon.fireLimit;
             }
         }
-        self.rechargeState = false;
-    }, 3000);
+        this.rechargeState = false;
+    }.bind(this), 3000);
+};
+
+Player.prototype.addHealth = function (healthBox) {
+    if (this.maxHealth < this.health + healthBox.health) {
+        this.health = this.maxHealth;
+    } else {
+        this.health += healthBox.health;
+    }
+    healthBox.kill();
 };
 
 function getVelocity(moveDirection, playerDirection) {

@@ -3,6 +3,15 @@ var Zombie = require('./zombie');
 var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
+var HealthBox = require('./box/health');
+var BulletsBox = require('./box/bullets');
+
+function loadBox(params) {
+    params.dist = params.game.add.group();
+    params.dist.enableBody = true;
+    params.world.map.createFromObjects('meta', params.name, params.name, 0, true,
+        true, params.dist, params.spriteObject);
+}
 
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
@@ -49,10 +58,29 @@ var WorldLoader = function (game, map, tilesets) {
 
     this.map.setCollision([1]);
 
-    this.coins = game.add.group();
-    this.coins.enableBody = true;
-    this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
+    loadBox({
+        game,
+        world: this,
+        dist: this.coins,
+        name: 'coin',
+        spriteObject: Coin
+    });
 
+    loadBox({
+        game,
+        world: this,
+        dist: this.healthBoxes,
+        name: 'health',
+        spriteObject: HealthBox
+    });
+
+    loadBox({
+        game,
+        world: this,
+        dist: this.bulletsBoxes,
+        name: 'bulletsBox',
+        spriteObject: BulletsBox
+    });
 };
 
 WorldLoader.prototype.createLayer = function (key, layerName) {
