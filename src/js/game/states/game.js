@@ -63,6 +63,9 @@ var game = {
     healthBoxCollision: function (player, box) {
         player.addHealth(box);
     },
+    bulletsBoxesCollision: function (player, box) {
+        player.addBullets(box);
+    },
     score: 0,
     money: 0
 };
@@ -206,11 +209,18 @@ game.update = function () {
         game.healthBoxCollision,
         null, game
     );
-    
+
     game.physics.arcade.overlap(
         game.player,
         game.worldMap.healthBoxes,
         game.healthBoxCollision,
+        null, game
+    );
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.bulletsBoxes,
+        game.bulletsBoxesCollision,
         null, game
     );
 }

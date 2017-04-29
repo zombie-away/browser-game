@@ -9,7 +9,4 @@ var HealthBox = function (game, x, y) {
 HealthBox.prototype = Object.create(Box.prototype);
 HealthBox.prototype.constructor = HealthBox;
 
-HealthBox.prototype.update = function () {
-};
-
 module.exports = HealthBox;

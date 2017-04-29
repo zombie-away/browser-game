@@ -4,13 +4,15 @@ var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
 var HealthBox = require('./box/health');
-var BulletsBox = require('./box/bullets');
+var GunBox = require('./box/gunBox');
+var ShotGunBox = require('./box/shotGunBox');
 
-function loadBox(params) {
-    params.dist = params.game.add.group();
-    params.dist.enableBody = true;
-    params.world.map.createFromObjects('meta', params.name, params.name, 0, true,
-        true, params.dist, params.spriteObject);
+function loadBox(game, world, name, spriteObject) {
+    var result = game.add.group();
+    result.enableBody = true;
+    world.map.createFromObjects('meta', name, name, 0, true, true, result, spriteObject);
+
+    return result;
 }
 
 var WorldLoader = function (game, map, tilesets) {
@@ -58,39 +60,16 @@ var WorldLoader = function (game, map, tilesets) {
 
     this.map.setCollision([1]);
 
-    loadBox({
-        game,
-        world: this,
-        dist: this.coins,
-        name: 'coin',
-        spriteObject: Coin
-    });
-
-    loadBox({
-        game,
-        world: this,
-        dist: this.healthBoxes,
-        name: 'health',
-        spriteObject: HealthBox
-    });
-
-    loadBox({
-        game,
-        world: this,
-        dist: this.bulletsBoxes,
-        name: 'bulletsBox',
-        spriteObject: BulletsBox
-    });
+    // знаю, что слишком много аргументов. Но так удобнее
+    this.coins = loadBox(game, this, 'coin', Coin);
+    this.healthBoxes = loadBox(game, this, 'health', HealthBox);
+    this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
+    this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 };
 
 WorldLoader.prototype.createLayer = function (key, layerName) {
     this[layerName] = this.map.createLayer(key);
     this[layerName].resizeWorld();
 };
-
-function layerOffset(layer) {
-    layer.anchor.y += 0.08;
-    layer.resize(properties.size.x, properties.size.y + 52);
-}
 
 module.exports = WorldLoader;

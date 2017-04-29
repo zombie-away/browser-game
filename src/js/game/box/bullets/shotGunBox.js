@@ -1,7 +1,8 @@
 var BulletsBox = require('./bullets');
+var weaponNames = require('../../constants/weapon');
 
 var ShotGunBox = function (game, x, y) {
-    BulletsBox.call(this, game, x, y, 'shotgun');
+    BulletsBox.call(this, game, x, y, weaponNames.shotGunName);
 
     this.bullets = 5;
 }
