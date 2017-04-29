@@ -39,5 +39,8 @@
     "grunt-pngmin": "^1.0.2",
     "lodash": "^4.6.1",
     "phaser": "^2.6.2"
+  },
+  "devDependencies": {
+    "grunt-contrib-sass": "^1.0.0"
   }
 }
