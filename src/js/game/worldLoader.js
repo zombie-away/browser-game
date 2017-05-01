@@ -4,8 +4,8 @@ var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
 var HealthBox = require('./box/health');
-var GunBox = require('./box/gunBox');
-var ShotGunBox = require('./box/shotGunBox');
+var GunBox = require('./box/bullets/gunBox');
+var ShotGunBox = require('./box/bullets/shotGunBox');
 
 function loadBox(game, world, name, spriteObject) {
     var result = game.add.group();
