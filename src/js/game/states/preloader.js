@@ -13,9 +13,19 @@ preloader.preload = function () {
     this.game.load.image('gunForLifePanel', 'images/gunForLifeBar.png');
 
     this.game.load.tilemap('map', 'tilemaps/maps/new-lvl1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.image('collision-tiles', 'tilemaps/tiles/collision.png', 16, 16);
     this.game.load.image('house-tiles', 'tilemaps/tiles/house.png', 16, 16);
     this.game.load.image('dirt-tiles', 'tilemaps/tiles/dirt.png', 16, 16);
     this.game.load.image('grass-tiles', 'tilemaps/tiles/grass.png', 16, 16);
+    this.game.load.image('rock-tiles', 'tilemaps/tiles/rock.png', 16, 16);
+    this.game.load.image('dungeon-tiles', 'tilemaps/tiles/dungeon.png', 16, 16);
+    this.game.load.image('trunk-tiles', 'tilemaps/tiles/trunk.png', 16, 16);
+    this.game.load.image('treetop-tiles', 'tilemaps/tiles/treetop.png', 16, 16);
+    this.game.load.image('water-tiles', 'tilemaps/tiles/water.png', 16, 16);
+    this.game.load.image('watergrass-tiles', 'tilemaps/tiles/watergrass.png', 16, 16);
+    this.game.load.image('mountains-tiles', 'tilemaps/tiles/mountains.png', 16, 16);
+    this.game.load.image('cup-tiles', 'tilemaps/tiles/cup.png', 16, 16);
+    this.game.load.image('signs-tiles', 'tilemaps/tiles/signs.png', 16, 16);
     // this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png', 16, 16);
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
