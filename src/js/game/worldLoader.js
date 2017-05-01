@@ -1,7 +1,14 @@
 var properties = require('./properties');
+<<<<<<< HEAD
 var Zombie = require('./zombie.js');
 var Player = require('./player.js');
 var Coin = require('./box/coin.js');
+=======
+// var Zombie = require('./zombie');
+var Spawner = require('./spawner');
+var Player = require('./player');
+var Coin = require('./box/coin');
+>>>>>>> daf11002a07690b8b756632ca621fd9025222a23
 
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
@@ -30,9 +37,9 @@ var WorldLoader = function (game, map, tilesets) {
     if (!this.players.length) {
         this.player = new Player(game, game.world.centerX, game.world.height);
     }
-    // game.player = new Player(this.game, game.world.centerX, game.world.height);
 
     this.createLayer('base', 'baseLayer');
+
 
     this.zombies = game.add.group();
     this.zombies.enableBody = true;
@@ -40,12 +47,18 @@ var WorldLoader = function (game, map, tilesets) {
     this.createLayer('second', 'secondLayer');
     this.createLayer('third', 'thirdLayer');
 
+    this.spawners = game.add.group();
+    this.spawners.enableBody = true;
+    Spawner.zombies = game.add.group();
+    this.map.createFromObjects('meta', 'spawner', 'spawner', 0, true, true, this.spawners, Spawner);
+
+    this.zombies = Spawner.zombies;
 
     this.map.setCollision([1]);
 
     this.coins = game.add.group();
     this.coins.enableBody = true;
-    // this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
+    this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
 
 };
 
