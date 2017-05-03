@@ -1,5 +1,5 @@
 var properties = require('./properties');
-// var Zombie = require('./zombie');
+var Zombie = require('./zombie');
 var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
@@ -7,8 +7,20 @@ var Coin = require('./box/coin');
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
     this.map = game.add.tilemap(map);
-    this.map.addTilesetImage('tileset', 'tiles');
-    this.map.addTilesetImage('collisiontile', 'collisionTile');
+    this.map.addTilesetImage('collision', 'collision-tiles');
+    this.map.addTilesetImage('house', 'house-tiles');
+    this.map.addTilesetImage('dirt', 'dirt-tiles');
+    this.map.addTilesetImage('grass', 'grass-tiles');
+    this.map.addTilesetImage('rock', 'rock-tiles');
+    this.map.addTilesetImage('dungeon', 'dungeon-tiles');
+    this.map.addTilesetImage('trunk', 'trunk-tiles');
+    this.map.addTilesetImage('treetop', 'treetop-tiles');
+    this.map.addTilesetImage('water', 'water-tiles');
+    this.map.addTilesetImage('watergrass', 'watergrass-tiles');
+    this.map.addTilesetImage('mountains', 'mountains-tiles');
+    this.map.addTilesetImage('cup', 'cup-tiles');
+    this.map.addTilesetImage('signs', 'signs-tiles');
+    // this.map.addTilesetImage('collisiontile', 'collisionTile');
 
     this.createLayer('collisions', 'collisionLayer');
 
@@ -21,6 +33,11 @@ var WorldLoader = function (game, map, tilesets) {
     }
 
     this.createLayer('base', 'baseLayer');
+    this.createLayer('second', 'secondLayer');
+    this.createLayer('third', 'thirdLayer');
+
+    var zombies = game.add.group();
+    this.map.createFromObjects('meta', 'zombie', 'zombie', 0, true, true, zombies, Zombie);
 
     this.spawners = game.add.group();
     this.spawners.enableBody = true;
@@ -28,25 +45,13 @@ var WorldLoader = function (game, map, tilesets) {
     this.map.createFromObjects('meta', 'spawner', 'spawner', 0, true, true, this.spawners, Spawner);
 
     this.zombies = Spawner.zombies;
+    this.zombies.addMultiple(zombies);
 
-    this.createLayer('second', 'secondLayer');
-    this.createLayer('third', 'thirdLayer');
-    this.createLayer('fourth', 'fourthLayer');
-    this.createLayer('shadow', 'shadowLayer');
-
-    layerOffset(this.baseLayer);
-    layerOffset(this.secondLayer);
-    layerOffset(this.thirdLayer);
-    layerOffset(this.fourthLayer);
-    layerOffset(this.shadowLayer);
-
-    this.map.setCollision([38]);
+    this.map.setCollision([1]);
 
     this.coins = game.add.group();
     this.coins.enableBody = true;
     this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
-    // this.coins.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5], 10, true);
-    // this.coins.callAll('animations.play', 'animations', 'spin');
 
 };
 
