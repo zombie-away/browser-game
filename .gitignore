@@ -1,6 +1,9 @@
 # Node.js with Express and Stlyus
 /.monitor
 
+# Sass
+/.sass-cache
+
 # Eclipse
 /.project
 /.settings
