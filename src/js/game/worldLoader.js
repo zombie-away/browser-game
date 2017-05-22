@@ -3,6 +3,7 @@ var Zombie = require('./zombie');
 var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
+var serialize = require('../lib/serialize');
 
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
@@ -52,12 +53,32 @@ var WorldLoader = function (game, map, tilesets) {
     this.coins = game.add.group();
     this.coins.enableBody = true;
     this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
-
 };
 
 WorldLoader.prototype.createLayer = function (key, layerName) {
     this[layerName] = this.map.createLayer(key);
     this[layerName].resizeWorld();
+};
+
+function serializeArray(array) {
+    var result = array.map(function (item) {
+        return item.serialize();
+    });
+
+    return JSON.stringify(result);
+}
+
+WorldLoader.prototype.serialize = function () {
+    var fields = [
+        'zombies',
+        'coins'
+    ];
+    var serializeObject = {
+        zombies: serializeArray(this.zombies.children),
+        coins: serializeArray(this.coins.children)
+    };
+    
+    return serialize(serializeObject, fields);
 };
 
 function layerOffset(layer) {

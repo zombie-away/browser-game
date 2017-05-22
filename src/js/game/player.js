@@ -1,24 +1,27 @@
 var PLAYER_FACE_VELOCITY = 150;
 var PLAYER_BACK_VELOCITY = 70;
 var Being = require('./being.js');
+var serialize = require('../lib/serialize');
+var Gun = require('./gun');
+var AK47 = require('./ak47');
+var Shotgun = require('./shotgun');
 
 var Player = function (game, x, y) {
     Being.call(this, game, x, y, 'player');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
-
+    this.weapon = new Gun(game, this);
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
-    noiseZone.drawCircle(0, 0, 700);
+    noiseZone.drawCircle(0, 0, 400);
     game.physics.enable(noiseZone, Phaser.Physics.ARCADE);
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
     this.backpack = {
-        weapons: [],
+        weapons: [this.weapon],
         bullets: {
-            // Infinity
             gun: 1000,
             shotgun: 2
         }
@@ -31,6 +34,32 @@ var Player = function (game, x, y) {
 
 Player.prototype = Object.create(Being.prototype);
 Player.prototype.constructor = Player;
+
+function backpackSerialize(backpack) {
+    var result = {};
+    result.weapons = backpack.weapons.map(function (weapon) {
+        return weapon.serialize();
+    });
+    result.bullets = backpack.bullets;
+
+    return JSON.stringify(result);
+}
+
+Player.prototype.serialize = function () {
+    var fields = [
+        'health',
+        'backpack',
+        'maxHealth',
+        'x',
+        'y'
+    ];
+    var serializeObject = Object.assign({}, this);
+    serializeObject.backpack = backpackSerialize(this.backpack);
+    serializeObject.x = this.x;
+    serializeObject.y = this.y;
+
+    return serialize(serializeObject, fields);
+};
 
 Player.prototype.update = function () {
     this.turnToTarget({x: this.target.worldX, y: this.target.worldY});

@@ -1,3 +1,5 @@
+var serialize = require('../lib/serialize');
+
 var Weapon = function (game, parent, bulletKey) {
     Phaser.Weapon.call(this, game, parent);
     this.createBullets(150, bulletKey);
@@ -18,6 +20,19 @@ var Weapon = function (game, parent, bulletKey) {
 
 Weapon.prototype = Object.create(Phaser.Weapon.prototype);
 Weapon.prototype.constructor = Weapon;
+
+Weapon.prototype.serialize = function() {
+    var fields = [
+        'bulletSpeed',
+        'fireRate',
+        'fireLimit',
+        'bulletsInGun',
+        'bulletPower',
+        'name'
+    ];
+
+    return serialize(this, fields);
+};
 
 Weapon.prototype.update = function() {
     if (this.game.input.activePointer.leftButton.isDown && this.bulletsInGun > 0) {
@@ -42,23 +57,5 @@ Weapon.prototype.multyFire = function (fireCount) {
         this.fireRate = fireRate;
     }
 };
-
-
-// Weapon.prototype.recharge = function () {
-//     setTimeout(function () {
-//         console.log(this.parent);
-//         if (this.parent.backpack.bullets > 0) {
-//             if (this.parent.backpack.bullets <= this.fireLimit) {
-//                 this.bulletsInGun = this.parent.backpack.bullets;
-//                 this.parent.backpack.bullets = 0;
-//             } else {
-//                 this.parent.backpack.bullets -= this.fireLimit;
-//                 this.bulletsInGun = this.fireLimit;
-//             }
-//         } else {
-//             this.isNoBullets = true;
-//         }
-//     }, 3000);
-// }
 
 module.exports = Weapon;

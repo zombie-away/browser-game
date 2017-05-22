@@ -1,39 +1,12 @@
 var Player = require('../player');
-var Gun = require('../gun');
-var AK47 = require('../ak47');
-var Shotgun = require('../shotgun');
 var HealthBar = require('../HealthBar');
 var lifePanelConst = require('../constants/lifePanel');
 var textStyleKey = require('../constants/textStyle').textStyleKey;
 var textStyleValue = require('../constants/textStyle').textStyleValue;
-
-function createPlayer(game, player) {
-    game.player = player;
-    game.game.add.existing(player);
-    game.game.camera.follow(player);
-    //weapon
-    var gun = new Gun(game.game, game.player);
-    var shotgun = new Shotgun(game.game, game.player);
-    game.player.weapon = gun;
-    game.player.backpack.weapons.push(gun);
-    game.player.backpack.weapons.push(shotgun);
-}
-
-function musicPlay(game) {
-    game.input.touch.preventDefault = false;
-
-    var music = game.add.audio('game');
-
-    music.play();
-}
-
-function addSprite(game, coords, spriteName) {
-    var lifePanel = game.add.sprite(coords.x, coords.y, spriteName);
-    lifePanel.fixedToCamera = true;
-    lifePanel.anchor.setTo(0.5, 0.5);
-}
-
+var serialize = require('../../lib/serialize');
 var WorldLoader = require('../worldLoader.js');
+var LEVELS = ['map'];
+
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
         if (zombie.damage(bullet.power)) {
@@ -53,16 +26,34 @@ var game = {
         coin.kill();
     },
     zombieAndPlayerCollision: function (player, zombie) {
-        // if (zombie.alive) {
-            zombie.attack(player);
-        // }
+        zombie.attack(player);
         if (!player.alive) {
             this.game.state.start('gameover', true, false, game.score);
         }
     },
     score: 0,
-    money: 0
+    money: 0,
+    level: 0
 };
+
+function createPlayer(game, player) {
+    game.player = player;
+    game.game.add.existing(player);
+    game.game.camera.follow(player);
+}
+
+function musicPlay(game) {
+    game.input.touch.preventDefault = false;
+    var music = game.add.audio('game');
+
+    music.play();
+}
+
+function addSprite(game, coords, spriteName) {
+    var lifePanel = game.add.sprite(coords.x, coords.y, spriteName);
+    lifePanel.fixedToCamera = true;
+    lifePanel.anchor.setTo(0.5, 0.5);
+}
 
 function createHealthBar(game) {
     game.healthBar = new HealthBar(game.game, {x: lifePanelConst.healthBarX, y: lifePanelConst.healthBarY});
@@ -122,14 +113,15 @@ function createInterface(game) {
 }
 
 game.create = function () {
-    game.worldMap = new WorldLoader(this.game, 'map');
+    game.worldMap = new WorldLoader(this.game, LEVELS[this.level]);
     //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);
+    game.save();
+    game.loadSave();
 };
 
 game.update = function () {
-    // console.log(game.worldMap.zombies);
     game.player.weapon.update();
     //overlap noise zone and zombie
     game.physics.arcade.overlap(
@@ -179,5 +171,28 @@ game.render = function () {
     // this.game.debug.spriteBounds(game.coins);
     // this.game.debug.text('Sprite z-depth: ' + sprite.z, 10, 20);
 }
+
+game.serialize = function () {
+    var fields = [
+        'player',
+        'score',
+        'money',
+        'level',
+        'worldMap'
+    ];
+
+    return serialize(game, fields);
+};
+
+game.save = function(key) {
+	if (!key) key = 'default';
+	localStorage.setItem(`save-${key}`, game.serialize());
+};
+
+game.loadSave = function(key) {
+	if (!key) key = 'default';
+	var state = localStorage.getItem(`save-${key}`);
+    console.log(state);
+};
 
 module.exports = game;
