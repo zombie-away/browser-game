@@ -1,7 +1,8 @@
-var serialize = require('../lib/serialize');
+var serializer = require('../lib/serializer');
 
 var Weapon = function (game, parent, bulletKey) {
     Phaser.Weapon.call(this, game, parent);
+    this.bulletKey = bulletKey;
     this.createBullets(150, bulletKey);
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     this.bulletSpeed = 600;
@@ -23,15 +24,15 @@ Weapon.prototype.constructor = Weapon;
 
 Weapon.prototype.serialize = function() {
     var fields = [
-        'bulletSpeed',
-        'fireRate',
-        'fireLimit',
         'bulletsInGun',
-        'bulletPower',
         'name'
     ];
 
-    return serialize(this, fields);
+    return serializer.serialize(this, fields);
+};
+
+Weapon.prototype.recreate = function(parent) {
+    Phaser.Weapon.call(this, this.game, parent);
 };
 
 Weapon.prototype.update = function() {

@@ -3,9 +3,15 @@ var HealthBar = require('../HealthBar');
 var lifePanelConst = require('../constants/lifePanel');
 var textStyleKey = require('../constants/textStyle').textStyleKey;
 var textStyleValue = require('../constants/textStyle').textStyleValue;
-var serialize = require('../../lib/serialize');
+var serializer = require('../../lib/serializer');
 var WorldLoader = require('../worldLoader.js');
 var LEVELS = ['map'];
+var DEFAULT_CONFIG = {
+    score: 0,
+    money: 0,
+    level: 0
+};
+var Gun = require('../gun');
 
 var game = {
     bulletAndZombieCollision: function (bullet, zombie) {
@@ -24,16 +30,15 @@ var game = {
         this.money++;
         this.score += 5;
         coin.kill();
+        this.worldMap.coins.remove(coin);
     },
     zombieAndPlayerCollision: function (player, zombie) {
         zombie.attack(player);
         if (!player.alive) {
+            this.autosaveOff();
             this.game.state.start('gameover', true, false, game.score);
         }
-    },
-    score: 0,
-    money: 0,
-    level: 0
+    }
 };
 
 function createPlayer(game, player) {
@@ -113,12 +118,16 @@ function createInterface(game) {
 }
 
 game.create = function () {
-    game.worldMap = new WorldLoader(this.game, LEVELS[this.level]);
+    // localStorage.clear();
+    var stats = this.loadGame();
+    for (var key in stats) {
+        this[key] = stats[key];
+    }
+    game.worldMap = new WorldLoader(this.game, LEVELS[this.level], stats.worldMap);
     //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);
-    game.save();
-    game.loadSave();
+    this.autosaveOn(10);
 };
 
 game.update = function () {
@@ -174,25 +183,43 @@ game.render = function () {
 
 game.serialize = function () {
     var fields = [
-        'player',
         'score',
         'money',
         'level',
         'worldMap'
     ];
+    console.log(fields);
+    console.log(game);
 
-    return serialize(game, fields);
+    return serializer.serialize(game, fields);
 };
 
 game.save = function(key) {
-	if (!key) key = 'default';
-	localStorage.setItem(`save-${key}`, game.serialize());
+    if (!key) key = 'default';
+	localStorage.setItem(`save-${key}`, JSON.stringify(game.serialize()));
 };
 
-game.loadSave = function(key) {
-	if (!key) key = 'default';
+game.autosaveOn = function (interval = 5) {
+	this.autosaveTimer = setInterval(function() {
+		this.save();
+	}.bind(this), interval * 1000);
+};
+
+game.autosaveOff = function () {
+	if (this.autosaveTimer) {
+		clearInterval(this.autosaveTimer);
+		this.autosaveTimer = null;
+	}
+};
+
+game.loadGame = function(key) {
+    if (!key) key = 'default';
 	var state = localStorage.getItem(`save-${key}`);
-    console.log(state);
+    if (state) {
+        return JSON.parse(state);
+    }
+
+    return DEFAULT_CONFIG;
 };
 
 module.exports = game;

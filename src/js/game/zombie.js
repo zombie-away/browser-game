@@ -1,5 +1,5 @@
 var Being = require('./being.js');
-var serialize = require('../lib/serialize');
+var serializer = require('../lib/serializer');
 
 var Zombie = function (game, x, y) {
     Being.call(this, game, x, y, 'zombie');
@@ -24,10 +24,21 @@ Zombie.prototype.serialize = function () {
         'y'
     ];
 
-    return serialize(this, fields);
+    return serializer.serialize(this, fields);
+};
+
+Zombie.deserialize = function (zombieData, game) {
+    var instance = new this(game, zombieData.x, zombieData.y);
+    instance.health = zombieData.health;
+    instance.target = zombieData.target;
+    instance.attackPower = zombieData.attackPower;
+    instance.alive = zombieData.alive;
+
+    return instance;
 };
 
 Zombie.prototype.update = function() {
+    if (!this.alive) this.kill();
     if (this.target) {
         this.turnToTarget(this.target);
         this.game.physics.arcade.moveToObject(this, this.target, 100);

@@ -1,12 +1,12 @@
 var PLAYER_FACE_VELOCITY = 150;
 var PLAYER_BACK_VELOCITY = 70;
 var Being = require('./being.js');
-var serialize = require('../lib/serialize');
+var serializer = require('../lib/serializer');
 var Gun = require('./gun');
 var AK47 = require('./ak47');
 var Shotgun = require('./shotgun');
 
-var Player = function (game, x, y) {
+var Player = function (game, x, y, options) {
     Being.call(this, game, x, y, 'player');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
@@ -20,14 +20,16 @@ var Player = function (game, x, y) {
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
     this.backpack = {
-        weapons: [this.weapon],
+        weapons: [this.weapon, new Shotgun(game, this), new AK47(game, this)],
         bullets: {
-            gun: 1000,
-            shotgun: 2
+            gun: options.gun || 1000,
+            shotgun: options.shotgun || 2,
+            ak47: options.ak47 || 0
         }
     };
-    this.health = 3;
+    this.health = options.health || 3;
     this.alive = true;
+    this.maxHealth = options.maxHealth || 3;
 
     this.rechargeState = false;
 }
@@ -35,30 +37,55 @@ var Player = function (game, x, y) {
 Player.prototype = Object.create(Being.prototype);
 Player.prototype.constructor = Player;
 
-function backpackSerialize(backpack) {
-    var result = {};
-    result.weapons = backpack.weapons.map(function (weapon) {
-        return weapon.serialize();
-    });
-    result.bullets = backpack.bullets;
-
-    return JSON.stringify(result);
-}
-
 Player.prototype.serialize = function () {
     var fields = [
         'health',
-        'backpack',
+        'bullets',
         'maxHealth',
+        'weapon',
+        'weapons',
         'x',
         'y'
     ];
     var serializeObject = Object.assign({}, this);
-    serializeObject.backpack = backpackSerialize(this.backpack);
+    serializeObject.bullets = this.backpack.bullets;
+    serializeObject.weapons = this.backpack.weapons.map(function (weapon) {
+        return weapon.serialize();
+    });
     serializeObject.x = this.x;
     serializeObject.y = this.y;
 
-    return serialize(serializeObject, fields);
+    return serializer.serialize(serializeObject, fields);
+};
+
+Player.prototype.addWeapon = function (weapon) {
+    this.backpack.weapons.push(weapon);
+};
+
+function weaponDeserialize(weapon, game, parent) {
+    var result;
+    switch (weapon.name) {
+        case 'shotgun':
+            result = new Shotgun(game, parent);
+            break;
+        case 'ak47':
+            result = new AK47(game, parent);
+            break;
+        default:
+            result = new Gun(game, parent);
+    }
+
+    return Object.assign(result, weapon);
+}
+
+Player.deserialize = function (playerData, game) {
+    var instance = new this(game, playerData.x, playerData.y, playerData);
+    instance.weapon = weaponDeserialize(playerData.weapon, game, instance);
+    instance.backpack.weapons = playerData.weapons.map(function (weapon) {
+        return weaponDeserialize(weapon, game, instance);
+    });
+
+    return instance;
 };
 
 Player.prototype.update = function () {

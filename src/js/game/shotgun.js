@@ -1,10 +1,9 @@
 var Weapon = require('./weapon.js');
-var Shotgun = function (game, parent) {
+var Shotgun = function (game, parent, options = {}) {
     Weapon.call(this, game, parent, 'shot');
     this.bulletSpeed = 500;
     this.fireRate = 900;
-    // this.fireRateVariance = 20;
-    this.bulletsInGun = 6;
+    this.bulletsInGun = options.bulletsInGun || 6;
     this.fireLimit = 6;
     this.bulletKillDistance = 200;
     this.bulletAngleVariance = 5;
