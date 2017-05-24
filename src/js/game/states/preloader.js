@@ -31,18 +31,21 @@ preloader.preload = function () {
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
 
     this.game.load.image('spawner', 'images/spawner.png');
+    this.game.load.image('pause-btn', 'images/pause-btn.png');
 
     this.game.load.image('menu', 'images/menu.jpg');
     this.game.load.image('playBtn', 'images/playbtn.png');
+    this.game.load.spritesheet('button-start', 'images/button-start.png', 196, 70);
+    this.game.load.spritesheet('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
 
 
-    this.game.load.audio('game', ['../../audio/game.mp3']);
+    // this.game.load.audio('game', ['../../audio/game.mp3']);
 };
 
 preloader.create = function () {
-    // this.game.state.start('menu');
-    this.game.state.start('game');
+    this.game.state.start('menu');
+    // this.game.state.start('game');
 };
 
 module.exports = preloader;

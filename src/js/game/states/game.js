@@ -120,6 +120,31 @@ function createInterface(game) {
     createTextPanel(game);
 }
 
+function pauseGame() {
+    if (!this.game.paused) {
+        this.pauseText.visible = true;
+        this.game.paused = true;
+    }
+}
+
+function unpause(game) {
+    if (this.game.paused) {
+        this.game.paused = false;
+        this.pauseText.visible = false;
+    }
+}
+
+function addPauseBtn(game) {
+    var coords = { x: game.game.world.centerX, y: game.game.camera.height / 2 };
+    game.pauseText = addText(game, coords, 'Пауза');
+    game.pauseText.visible = false;
+    game.pauseText.anchor.setTo(0.5, 0.5);
+
+    game.pauseBtn = game.add.button(game.game.world.width - 60, 40, 'pause-btn', pauseGame.bind(game), game, 0, 0, 0);
+    game.pauseBtn.fixedToCamera = true;
+    game.game.input.onDown.add(unpause.bind(game), game);
+}
+
 game.create = function () {
     var stats = this.loadGame();
     if (this.mode === 'new') {
@@ -133,6 +158,7 @@ game.create = function () {
     //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);
+    addPauseBtn(this);
     this.autosaveOn(10);
 };
 
