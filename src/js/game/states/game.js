@@ -14,6 +14,9 @@ var DEFAULT_CONFIG = {
 var Gun = require('../gun');
 
 var game = {
+    init: function (param) {
+        this.mode = param;
+    },
     bulletAndZombieCollision: function (bullet, zombie) {
         if (zombie.damage(bullet.power)) {
             this.score += 10;
@@ -118,8 +121,11 @@ function createInterface(game) {
 }
 
 game.create = function () {
-    // localStorage.clear();
     var stats = this.loadGame();
+    if (this.mode === 'new') {
+        stats = DEFAULT_CONFIG;
+        localStorage.clear();
+    }
     for (var key in stats) {
         this[key] = stats[key];
     }
@@ -188,8 +194,6 @@ game.serialize = function () {
         'level',
         'worldMap'
     ];
-    console.log(fields);
-    console.log(game);
 
     return serializer.serialize(game, fields);
 };
