@@ -33,14 +33,16 @@ var game = {
         this.money++;
         this.score += 5;
         coin.kill();
-        this.worldMap.coins.remove(coin);
     },
     zombieAndPlayerCollision: function (player, zombie) {
         zombie.attack(player);
         if (!player.alive) {
-            this.autosaveOff();
             this.game.state.start('gameover', true, false, game.score);
         }
+    },
+    saveBoxCollision: function (player, box) {
+        box.kill();
+        this.save();
     }
 };
 
@@ -159,7 +161,6 @@ game.create = function () {
     createPlayer(game, game.worldMap.player);
     createInterface(game);
     addPauseBtn(this);
-    this.autosaveOn(10);
 };
 
 game.update = function () {
@@ -169,6 +170,13 @@ game.update = function () {
         game.player.noiseZone,
         game.worldMap.zombies,
         game.noiseZoneAndZombieCollision,
+        null,
+        game
+    );
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.saveBoxes,
+        game.saveBoxCollision,
         null,
         game
     );

@@ -28,12 +28,15 @@ var Menu = {
             this.startGame();
         }.bind(this));
         this.addMenuOption('Продолжить', function (target) {
-            console.log('You clicked Продолжить !');
-        });
+            this.continueGame();
+        }.bind(this));
     },
     startGame: function ()
     {
-        this.state.start('game');
+        this.state.start('game', true, false, 'new');
+    },
+    continueGame: function () {
+        this.state.start('game', true, false, 'continue');
     }
 };
 

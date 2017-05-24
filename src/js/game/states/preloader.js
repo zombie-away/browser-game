@@ -30,6 +30,9 @@ preloader.preload = function () {
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
 
+    // save box spritesheet
+    this.game.load.atlasJSONHash('floppy', 'images/floppy-sheets.png', 'images/floppy-sheets.json');
+
     this.game.load.image('spawner', 'images/spawner.png');
     this.game.load.image('pause-btn', 'images/pause-btn.png');
 
