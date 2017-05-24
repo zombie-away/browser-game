@@ -26,7 +26,7 @@ var Menu = {
         this.add.sprite(0, 0, 'menu');
         this.addMenuOption('Новая', function (target) {
             this.startGame();
-        });
+        }.bind(this));
         this.addMenuOption('Продолжить', function (target) {
             console.log('You clicked Продолжить !');
         });
