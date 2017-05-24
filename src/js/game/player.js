@@ -10,7 +10,7 @@ var Shotgun = require('./shotgun');
 var Player = function (game, x, y, options) {
     Being.call(this, game, x, y, 'legs');
     this.TURN_RATE = 9;
-    this.target = this.game.input.activePointer;		      
+    this.target = this.game.input.activePointer;
     this.weapon = new Gun(game, this);
 
     var body = game.add.sprite(0, 0, 'player');
@@ -33,10 +33,9 @@ var Player = function (game, x, y, options) {
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
     var backpackBullets = {};
-    // Infinity
     backpackBullets[weaponNames.gunName] = options.gun || 1000;
     backpackBullets[weaponNames.shotGunName] = options.shotgun || 2;
-    backpackBullets[weaponNames.ak47Name] = options.ak47 || 0;
+    backpackBullets[weaponNames.ak47Name] = options.ak47 || 30;
     this.backpack = {
         weapons: [this.weapon, new Shotgun(game, this), new AK47(game, this)],
         bullets: backpackBullets
@@ -45,6 +44,7 @@ var Player = function (game, x, y, options) {
     this.alive = true;
     this.maxHealth = options.maxHealth || 3;
     this.rechargeState = false;
+    this.cockSound = game.add.audio('audio-cock');
 }
 
 Player.prototype = Object.create(Being.prototype);
@@ -155,6 +155,7 @@ Player.prototype.rechargeWeapon = function () {
             }
         }
         this.rechargeState = false;
+        this.cockSound.play();
     }.bind(this), 3000);
 };
 

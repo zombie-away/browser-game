@@ -12,10 +12,12 @@ var Weapon = function (game, parent, bulletKey) {
     this.bulletsInGun = 10;
     this.isNoBullets = false;
     this.bulletPower = 5;
+    this.shootSound = game.add.audio('audio-shotgun');
 
     this.onFire.add(function (bullet, weapon) {
         bullet.power = this.bulletPower;
         this.bulletsInGun--;
+        this.shootSound.play();
     }, this);
 }
 

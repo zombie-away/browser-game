@@ -4,7 +4,12 @@ var Coin = function (game, x, y) {
     Box.call(this, game, x, y, 'coin');
     this.animations.add('spin');
     this.animations.play('spin', 10, true);
-}
+
+    this.sound = game.add.audio('audio-money');
+    this.events.onKilled.add(function () {
+        this.sound.play();
+    }, this);
+};
 
 Coin.prototype = Object.create(Box.prototype);
 Coin.prototype.constructor = Coin;

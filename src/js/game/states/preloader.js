@@ -51,6 +51,11 @@ preloader.preload = function () {
 
 
     // this.game.load.audio('game', ['../../audio/game.mp3']);
+    this.game.load.audio('audio-shotgun', 'audio/shotgun.wav');
+    this.game.load.audio('audio-gun', 'audio/gun.wav');
+    this.game.load.audio('audio-ak47', 'audio/ak47.wav');
+    this.game.load.audio('audio-cock', 'audio/cock.wav');
+    this.game.load.audio('audio-money', 'audio/money.mp3');
 };
 
 preloader.create = function () {
