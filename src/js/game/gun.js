@@ -6,7 +6,6 @@ var Gun = function (game, parent) {
     this.bulletsInGun = this.fireLimit = 10;
     this.name = 'gun';
 }
-// bulletSpeed, fireRate, bulletsInHolder
 
 Gun.prototype = Object.create(Weapon.prototype);
 Gun.prototype.constructor = Gun;

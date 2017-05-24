@@ -3,14 +3,25 @@ var PLAYER_BACK_VELOCITY = 70;
 var Being = require('./being.js');
 
 var Player = function (game, x, y) {
-    Being.call(this, game, x, y, 'player');
+    Being.call(this, game, x, y, 'legs');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
 
-    //noise zone
+    var body = game.add.sprite(0, 0, 'player');
+    body.anchor.setTo(0.5, 0.5);
+    this.addChild(body);
+
+    var weaponSprite = game.add.sprite(13, 0, 'gun');
+    game.physics.enable(weaponSprite, Phaser.Physics.ARCADE);
+    weaponSprite.anchor.setTo(0.5, 0.5);
+    this.addChild(weaponSprite);
+
+    this.walkAnimation = this.animations.add('walk', Phaser.Animation.generateFrameNames('legs_', 1, 6, '.png', 4), 10, true, false);
+
+    // noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
-    noiseZone.drawCircle(0, 0, 700);
+    noiseZone.drawCircle(0, 0, 100);
     game.physics.enable(noiseZone, Phaser.Physics.ARCADE);
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
@@ -25,7 +36,6 @@ var Player = function (game, x, y) {
     };
     this.health = 3;
     this.alive = true;
-
     this.rechargeState = false;
 }
 
@@ -33,6 +43,7 @@ Player.prototype = Object.create(Being.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function () {
+    this.setState(this);
     this.turnToTarget({x: this.target.worldX, y: this.target.worldY});
     var cursors = this.game.input.keyboard.addKeys(
         {
@@ -73,20 +84,19 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.rechargeWeapon = function () {
-    var self = this;
     setTimeout(function () {
-        var weaponBullets = self.backpack.bullets[self.weapon.name];
+        var weaponBullets = this.backpack.bullets[this.weapon.name];
         if (weaponBullets) {
-            if (weaponBullets <= self.weapon.fireLimit) {
-                self.weapon.bulletsInGun = weaponBullets;
-                self.backpack.bullets[self.weapon.name] = 0;
+            if (weaponBullets <= this.weapon.fireLimit) {
+                this.weapon.bulletsInGun = weaponBullets;
+                this.backpack.bullets[this.weapon.name] = 0;
             } else {
-                self.backpack.bullets[self.weapon.name] -= self.weapon.fireLimit;
-                self.weapon.bulletsInGun = self.weapon.fireLimit;
+                this.backpack.bullets[this.weapon.name] -= this.weapon.fireLimit;
+                this.weapon.bulletsInGun = this.weapon.fireLimit;
             }
         }
-        self.rechargeState = false;
-    }, 3000);
+        this.rechargeState = false;
+    }.bind(this), 3000);
 };
 
 function getVelocity(moveDirection, playerDirection) {
@@ -120,5 +130,14 @@ function weaponChangeHandler(player) {
     }
 
 }
+
+Player.prototype.setState = function (state) {
+    if (state.body.speed === 0) {
+        this.walkAnimation.stop();
+    } else {
+        this.animations.play('walk', state.body.speed / 10, true);
+        this.walkAnimation.speed = state.body.speed / 10;
+    }
+};
 
 module.exports = Player;
