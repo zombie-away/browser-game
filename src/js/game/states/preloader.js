@@ -35,6 +35,8 @@ preloader.preload = function () {
 
     this.game.load.image('menu', 'images/menu.jpg');
     this.game.load.image('playBtn', 'images/playbtn.png');
+    this.game.load.spritesheet('button-start', 'images/button-start.png', 196, 70);
+    this.game.load.spritesheet('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
 
 
@@ -42,8 +44,8 @@ preloader.preload = function () {
 };
 
 preloader.create = function () {
-    // this.game.state.start('menu');
-    this.game.state.start('game');
+    this.game.state.start('menu');
+    // this.game.state.start('game');
 };
 
 module.exports = preloader;
