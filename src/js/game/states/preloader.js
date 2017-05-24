@@ -31,13 +31,14 @@ preloader.preload = function () {
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
 
     this.game.load.image('spawner', 'images/spawner.png');
+    this.game.load.image('pause-btn', 'images/pause-btn.png');
 
     this.game.load.image('menu', 'images/menu.jpg');
     this.game.load.image('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
 
 
-    this.game.load.audio('game', ['../../audio/game.mp3']);
+    // this.game.load.audio('game', ['../../audio/game.mp3']);
 };
 
 preloader.create = function () {
