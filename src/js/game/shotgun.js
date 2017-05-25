@@ -1,20 +1,17 @@
-var Weapon = require('./weapon');
 var constants = require('./constants/weapon');
-var Shotgun = function (game, parent) {
+var Weapon = require('./weapon');
+var Shotgun = function (game, parent, options = {}) {
     Weapon.call(this, game, parent, 'shot');
     this.bulletSpeed = 500;
     this.fireRate = 900;
-    // this.fireRateVariance = 20;
-    this.bulletsInGun = 6;
+    this.bulletsInGun = options.bulletsInGun || 6;
     this.fireLimit = 6;
     this.bulletKillDistance = 200;
     this.bulletAngleVariance = 5;
     this.bulletSpeedVariance = 10;
-    this.bulletPower = 2;
-
     this.nextFire = 0;
     this.name = constants.shotGunName;
-
+    this.bulletPower = 2;
 }
 
 Shotgun.prototype = Object.create(Weapon.prototype);

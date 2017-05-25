@@ -964,18 +964,6 @@
                 {
                  "ellipse":true,
                  "height":0,
-                 "id":102,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":297,
-                 "y":1881
-                }, 
-                {
-                 "ellipse":true,
-                 "height":0,
                  "id":103,
                  "name":"shotGunBox",
                  "rotation":0,
@@ -996,6 +984,42 @@
                  "width":0,
                  "x":296,
                  "y":1883
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "id":105,
+                 "name":"savepoint",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":232,
+                 "y":1521
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "id":109,
+                 "name":"savepoint",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":353,
+                 "y":1057
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "id":110,
+                 "name":"savepoint",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":23,
+                 "y":619
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1004,7 +1028,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":105,
+ "nextobjectid":111,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":16,

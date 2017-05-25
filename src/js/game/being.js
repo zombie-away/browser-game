@@ -11,7 +11,7 @@ var Being = function (game, x, y, key) {
     this.target = null;
     this.maxHealth = 10;
     this.onHealthChange = new Phaser.Signal();
-}
+};
 
 Being.prototype = Object.create(Phaser.Sprite.prototype);
 Being.prototype.constructor = Being;

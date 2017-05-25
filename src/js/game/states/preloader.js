@@ -38,11 +38,13 @@ preloader.preload = function () {
     this.game.load.image('healthBox', 'images/healthBox.png');
     this.game.load.image('bulletsBox', 'images/bulletsBox.png');
 
+    // save box spritesheet
+    this.game.load.atlasJSONHash('floppy', 'images/floppy-sheets.png', 'images/floppy-sheets.json');
+
     this.game.load.image('spawner', 'images/spawner.png');
     this.game.load.image('pause-btn', 'images/pause-btn.png');
 
     this.game.load.image('menu', 'images/menu.jpg');
-    this.game.load.image('playBtn', 'images/playbtn.png');
     this.game.load.spritesheet('button-start', 'images/button-start.png', 196, 70);
     this.game.load.spritesheet('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
@@ -53,7 +55,6 @@ preloader.preload = function () {
 
 preloader.create = function () {
     this.game.state.start('menu');
-    // this.game.state.start('game');
 };
 
 module.exports = preloader;

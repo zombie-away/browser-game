@@ -3,9 +3,15 @@ var Zombie = require('./zombie');
 var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
-var HealthBox = require('./box/health');
+var serializer = require('../lib/serializer');
+var Gun = require('./gun');
+var AK47 = require('./ak47');
+var Shotgun = require('./shotgun');
+var SaveBox = require('./box/savebox');
 var GunBox = require('./box/bullets/gunBox');
 var ShotGunBox = require('./box/bullets/shotGunBox');
+var HealthBox = require('./box/health');
+var weaponNames = require('./constants/weapon');
 
 function loadBox(game, world, name, spriteObject) {
     var result = game.add.group();
@@ -15,7 +21,7 @@ function loadBox(game, world, name, spriteObject) {
     return result;
 }
 
-var WorldLoader = function (game, map, tilesets) {
+var WorldLoader = function (game, map, options = {}) {
     game.stage.backgroundColor = "#e1e1e1";
     this.map = game.add.tilemap(map);
     this.map.addTilesetImage('collision', 'collision-tiles');
@@ -31,45 +37,114 @@ var WorldLoader = function (game, map, tilesets) {
     this.map.addTilesetImage('mountains', 'mountains-tiles');
     this.map.addTilesetImage('cup', 'cup-tiles');
     this.map.addTilesetImage('signs', 'signs-tiles');
-    // this.map.addTilesetImage('collisiontile', 'collisionTile');
 
     this.createLayer('collisions', 'collisionLayer');
+    this.createLayer('base', 'baseLayer');
 
-    this.players = game.add.group();
-    this.players.enableBody = true;
-    this.map.createFromObjects('meta', 'player', 'player', 0, true, true, this.players, Player);
-    this.player = this.players.children[0];
-    if (!this.players.length) {
-        this.player = new Player(game, game.world.centerX, game.world.height);
+    if (!options.player) {
+        this.players = loadBox(game, this, 'player', Player);
+        this.player = this.players.children[0];
+    } else {
+        this.player = Player.deserialize(options.player, game);
     }
 
-    this.createLayer('base', 'baseLayer');
     this.createLayer('second', 'secondLayer');
     this.createLayer('third', 'thirdLayer');
 
-    var zombies = game.add.group();
-    this.map.createFromObjects('meta', 'zombie', 'zombie', 0, true, true, zombies, Zombie);
+    var zombies = loadBox(game, this, 'zombie', Zombie);
+    this.coins = loadBox(game, this, 'coin', Coin);
+    this.saveBoxes = loadBox(game, this, 'savepoint', SaveBox);
+    this.healthBoxes = loadBox(game, this, 'health', HealthBox);
+    this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
+    this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 
-    this.spawners = game.add.group();
-    this.spawners.enableBody = true;
     Spawner.zombies = game.add.group();
-    this.map.createFromObjects('meta', 'spawner', 'spawner', 0, true, true, this.spawners, Spawner);
-
+    this.spawners = loadBox(game, this, 'spawner', Spawner);
     this.zombies = Spawner.zombies;
     this.zombies.addMultiple(zombies);
 
     this.map.setCollision([1]);
-
-    // знаю, что слишком много аргументов. Но так удобнее
-    this.coins = loadBox(game, this, 'coin', Coin);
-    this.healthBoxes = loadBox(game, this, 'health', HealthBox);
-    this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
-    this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
+    if (options.player) {
+        var loadData = WorldLoader.deserialize(options, game);
+        this.coins.removeAll();
+        this.zombies.removeAll();
+        this.saveBoxes.removeAll();
+        this.healthBoxes.removeAll();
+        this.bulletsBoxes.removeAll();
+        this.coins.addMultiple(loadData.coins);
+        this.zombies.addMultiple(loadData.zombies);
+        this.saveBoxes.addMultiple(loadData.saveBoxes);
+        this.healthBoxes.addMultiple(loadData.healthBoxes);
+        this.bulletsBoxes.addMultiple(loadData.bulletsBoxes);
+        this.player = loadData.player;
+    }
 };
 
 WorldLoader.prototype.createLayer = function (key, layerName) {
     this[layerName] = this.map.createLayer(key);
     this[layerName].resizeWorld();
 };
+
+function serializeArray(array) {
+    return array.reduce(function (acc, item) {
+        if (item.alive) {
+            acc.push(item.serialize());
+        }
+        return acc;
+    }, []);
+}
+
+WorldLoader.prototype.serialize = function () {
+    var fields = [
+        'zombies',
+        'coins',
+        'saveBoxes',
+        'map',
+        'player',
+        'bulletsBoxes',
+        'healthBoxes'
+    ];
+    var serializeObject = {
+        zombies: serializeArray(this.zombies.children),
+        coins: serializeArray(this.coins.children),
+        saveBoxes: serializeArray(this.saveBoxes.children),
+        healthBoxes: serializeArray(this.healthBoxes.children),
+        bulletsBoxes: serializeArray(this.bulletsBoxes.children),
+        map: this.map.key,
+        player: this.player
+    };
+
+    return serializer.serialize(serializeObject, fields);
+};
+
+WorldLoader.deserialize = function (data, game) {
+    return {
+        coins: data.coins.map(function (coin) {
+            return new Coin(game, coin.x, coin.y);
+        }),
+        zombies: data.zombies.map(function (zombie) {
+            return Zombie.deserialize(zombie, game);
+        }),
+        saveBoxes: data.saveBoxes.map(function (box) {
+            return new SaveBox(game, box.x, box.y);
+        }),
+        healthBoxes: data.healthBoxes.map(function (box) {
+            return new HealthBox(game, box.x, box.y);
+        }),
+        bulletsBoxes: data.bulletsBoxes.map(function (box) {
+            if (box.type === weaponNames.gunName) {
+                return new GunBox(game, box.x, box.y);
+            }
+
+            return new ShotGunBox(game, box.x, box.y);
+        }),
+        player: Player.deserialize(data.player, game)
+    };
+};
+
+function layerOffset(layer) {
+    layer.anchor.y += 0.08;
+    layer.resize(properties.size.x, properties.size.y + 52);
+}
 
 module.exports = WorldLoader;

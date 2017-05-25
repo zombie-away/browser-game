@@ -6,8 +6,6 @@ function Spawner(game, x, y, zombies) {
     this.respawnDelay = 2000;
     this.spawnTimer = this.game.time.time;
     this.isPause = false;
-    // this.zombies = game.add.group();
-    // this.zombies = zombies;
 };
 
 Spawner.prototype = Object.create(Phaser.Sprite.prototype);
