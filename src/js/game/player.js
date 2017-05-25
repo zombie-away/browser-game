@@ -153,9 +153,9 @@ Player.prototype.rechargeWeapon = function () {
                 this.backpack.bullets[this.weapon.name] -= this.weapon.fireLimit;
                 this.weapon.bulletsInGun = this.weapon.fireLimit;
             }
+            this.cockSound.play();
         }
         this.rechargeState = false;
-        this.cockSound.play();
     }.bind(this), 3000);
 };
 
