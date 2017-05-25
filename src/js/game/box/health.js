@@ -2,7 +2,7 @@ var Box = require('./box.js');
 
 var HealthBox = function (game, x, y) {
     Box.call(this, game, x, y, 'healthBox');
-
+    this.sound = game.add.audio('audio-health-box');
     this.health = 1;
 }
 

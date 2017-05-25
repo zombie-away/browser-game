@@ -7,6 +7,8 @@ var AK47 = function (game, parent, options = {}) {
     this.bulletsInGun = options.bulletsInGun || 30;
     this.fireLimit = 30;
     this.name = constants.ak47Name;
+    this.shootSound = game.add.audio('audio-ak47');
+    this.bulletPower = 6;
 };
 
 AK47.prototype = Object.create(Weapon.prototype);
