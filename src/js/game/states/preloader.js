@@ -1,7 +1,13 @@
 var preloader = {};
 
 preloader.preload = function () {
-    this.game.load.image('player', 'images/hero.png');
+    // this.game.load.image('player', 'images/hero.png');
+    this.game.load.image('player', 'images/player-image.png');
+    this.game.load.image('gun', 'images/gun-image.png');
+
+    // walk animation images
+    this.game.load.atlasJSONHash('legs', 'images/legs.png', 'images/legs.json');
+
     this.game.load.image('bullet', 'images/bullet.png');
     this.game.load.image('shot', 'images/shot.png');
     this.game.load.image('zombie', 'images/zombie.png');
