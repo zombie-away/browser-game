@@ -17,36 +17,44 @@ var game = {
     init: function (param) {
         this.mode = param;
     },
+    
     bulletAndZombieCollision: function (bullet, zombie) {
         if (zombie.damage(bullet.power)) {
             this.score += 10;
         }
         bullet.kill();
     },
+
     noiseZoneAndZombieCollision: function (noiseZone, zombie) {
         zombie.target = noiseZone.parent;
     },
+
     bulletCollision: function (bullet) {
         bullet.kill();
     },
+
     coinCollision: function (player, coin) {
         this.money++;
         this.score += 5;
         coin.kill();
     },
+
     zombieAndPlayerCollision: function (player, zombie) {
         zombie.attack(player);
         if (!player.alive) {
             this.game.state.start('gameover', true, false, game.score);
         }
     },
+
     saveBoxCollision: function (player, box) {
         box.kill();
         this.save();
-    }
+    },
+
     healthBoxCollision: function (player, box) {
         player.addHealth(box);
     },
+
     bulletsBoxesCollision: function (player, box) {
         player.addBullets(box);
     }

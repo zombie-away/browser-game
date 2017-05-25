@@ -11,6 +11,7 @@ var SaveBox = require('./box/savebox');
 var GunBox = require('./box/bullets/gunBox');
 var ShotGunBox = require('./box/bullets/shotGunBox');
 var HealthBox = require('./box/health');
+var weaponNames = require('./constants/weapon');
 
 function loadBox(game, world, name, spriteObject) {
     var result = game.add.group();
@@ -41,9 +42,7 @@ var WorldLoader = function (game, map, options = {}) {
     this.createLayer('base', 'baseLayer');
 
     if (!options.player) {
-        this.players = game.add.group();
-        this.players.enableBody = true;
-        this.map.createFromObjects('meta', 'player', 'player', 0, true, true, this.players, Player);
+        this.players = loadBox(game, this, 'player', Player);
         this.player = this.players.children[0];
     } else {
         this.player = Player.deserialize(options.player, game);
@@ -52,45 +51,31 @@ var WorldLoader = function (game, map, options = {}) {
     this.createLayer('second', 'secondLayer');
     this.createLayer('third', 'thirdLayer');
 
-    var zombies = game.add.group();
-    if (!options.zombies) {
-        this.map.createFromObjects('meta', 'zombie', 'zombie', 0, true, true, zombies, Zombie);
-    }
-
-    this.spawners = game.add.group();
-    this.spawners.enableBody = true;
-    Spawner.zombies = game.add.group();
-    this.map.createFromObjects('meta', 'spawner', 'spawner', 0, true, true, this.spawners, Spawner);
-
-    this.zombies = Spawner.zombies;
-    this.zombies.addMultiple(zombies);
-    this.map.setCollision([1]);
-
-    this.saveBoxes = game.add.group();
-    this.coins = game.add.group();
-    // this.coins.enableBody = true;
-    this.saveBoxes.enableBody = true;
-    if (!options.coins) {
-        this.coins = loadBox(game, this, 'coin', Coin);
-        // this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
-    }
-    if (!options.saveBoxes) {
-        this.saveBoxes = loadBox(game, this, 'savepoint', SaveBox);
-        // this.map.createFromObjects('meta', 'savepoint', 'savepoint', 0, true, true, this.saveBoxes, SaveBox);
-    }
-    // знаю, что слишком много аргументов. Но так удобнее
+    var zombies = loadBox(game, this, 'zombie', Zombie);
+    this.coins = loadBox(game, this, 'coin', Coin);
+    this.saveBoxes = loadBox(game, this, 'savepoint', SaveBox);
     this.healthBoxes = loadBox(game, this, 'health', HealthBox);
     this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
     this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 
+    Spawner.zombies = game.add.group();
+    this.spawners = loadBox(game, this, 'spawner', Spawner);
+    this.zombies = Spawner.zombies;
+    this.zombies.addMultiple(zombies);
+
+    this.map.setCollision([1]);
     if (options.player) {
         var loadData = WorldLoader.deserialize(options, game);
         this.coins.removeAll();
         this.zombies.removeAll();
         this.saveBoxes.removeAll();
+        this.healthBoxes.removeAll();
+        this.bulletsBoxes.removeAll();
         this.coins.addMultiple(loadData.coins);
         this.zombies.addMultiple(loadData.zombies);
         this.saveBoxes.addMultiple(loadData.saveBoxes);
+        this.healthBoxes.addMultiple(loadData.healthBoxes);
+        this.bulletsBoxes.addMultiple(loadData.bulletsBoxes);
         this.player = loadData.player;
     }
 };
@@ -115,12 +100,16 @@ WorldLoader.prototype.serialize = function () {
         'coins',
         'saveBoxes',
         'map',
-        'player'
+        'player',
+        'bulletsBoxes',
+        'healthBoxes'
     ];
     var serializeObject = {
         zombies: serializeArray(this.zombies.children),
         coins: serializeArray(this.coins.children),
         saveBoxes: serializeArray(this.saveBoxes.children),
+        healthBoxes: serializeArray(this.healthBoxes.children),
+        bulletsBoxes: serializeArray(this.bulletsBoxes.children),
         map: this.map.key,
         player: this.player
     };
@@ -138,6 +127,16 @@ WorldLoader.deserialize = function (data, game) {
         }),
         saveBoxes: data.saveBoxes.map(function (box) {
             return new SaveBox(game, box.x, box.y);
+        }),
+        healthBoxes: data.healthBoxes.map(function (box) {
+            return new HealthBox(game, box.x, box.y);
+        }),
+        bulletsBoxes: data.bulletsBoxes.map(function (box) {
+            if (box.type === weaponNames.gunName) {
+                return new GunBox(game, box.x, box.y);
+            }
+
+            return new ShotGunBox(game, box.x, box.y);
         }),
         player: Player.deserialize(data.player, game)
     };

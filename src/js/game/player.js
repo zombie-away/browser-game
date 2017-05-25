@@ -6,8 +6,11 @@ var serializer = require('../lib/serializer');
 var Gun = require('./gun');
 var AK47 = require('./ak47');
 var Shotgun = require('./shotgun');
+
 var Player = function (game, x, y, options) {
     Being.call(this, game, x, y, 'legs');
+    this.TURN_RATE = 9;
+    this.target = this.game.input.activePointer;		      
     this.weapon = new Gun(game, this);
 
     var body = game.add.sprite(0, 0, 'player');
