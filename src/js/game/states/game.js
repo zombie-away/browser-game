@@ -60,6 +60,12 @@ var game = {
             this.game.state.start('gameover', true, false, game.score);
         }
     },
+    healthBoxCollision: function (player, box) {
+        player.addHealth(box);
+    },
+    bulletsBoxesCollision: function (player, box) {
+        player.addBullets(box);
+    },
     score: 0,
     money: 0
 };
@@ -121,15 +127,39 @@ function createInterface(game) {
     createTextPanel(game);
 }
 
+function pauseGame() {
+    if (!this.game.paused) {
+        this.pauseText.visible = true;
+        this.game.paused = true;
+    }
+}
+
+function unpause(game) {
+    if (this.game.paused) {
+        this.game.paused = false;
+        this.pauseText.visible = false;
+    }
+}
+
+function addPauseBtn(game) {
+    var coords = { x: game.game.world.centerX, y: game.game.camera.height / 2 };
+    game.pauseText = addText(game, coords, 'Пауза');
+    game.pauseText.visible = false;
+    game.pauseText.anchor.setTo(0.5, 0.5);
+
+    game.pauseBtn = game.add.button(game.game.world.width - 60, 40, 'pause-btn', pauseGame.bind(game), game, 0, 0, 0);
+    game.pauseBtn.fixedToCamera = true;
+    game.game.input.onDown.add(unpause.bind(game), game);
+}
+
 game.create = function () {
     game.worldMap = new WorldLoader(this.game, 'map');
-    //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);
+    addPauseBtn(this);
 };
 
 game.update = function () {
-    // console.log(game.worldMap.zombies);
     game.player.weapon.update();
     //overlap noise zone and zombie
     game.physics.arcade.overlap(
@@ -172,6 +202,27 @@ game.update = function () {
     game.moneyTextValue.text = this.money.toString();
     game.bulletsInGunTextValue.text = game.player.weapon.bulletsInGun;
     game.bulletsTextValue.text = '/' + game.player.backpack.bullets[game.player.weapon.name];
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.healthBoxes,
+        game.healthBoxCollision,
+        null, game
+    );
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.healthBoxes,
+        game.healthBoxCollision,
+        null, game
+    );
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.bulletsBoxes,
+        game.bulletsBoxesCollision,
+        null, game
+    );
 }
 
 game.render = function () {
