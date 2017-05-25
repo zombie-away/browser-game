@@ -3,6 +3,17 @@ var Zombie = require('./zombie');
 var Spawner = require('./spawner');
 var Player = require('./player');
 var Coin = require('./box/coin');
+var HealthBox = require('./box/health');
+var GunBox = require('./box/bullets/gunBox');
+var ShotGunBox = require('./box/bullets/shotGunBox');
+
+function loadBox(game, world, name, spriteObject) {
+    var result = game.add.group();
+    result.enableBody = true;
+    world.map.createFromObjects('meta', name, name, 0, true, true, result, spriteObject);
+
+    return result;
+}
 
 var WorldLoader = function (game, map, tilesets) {
     game.stage.backgroundColor = "#e1e1e1";
@@ -49,20 +60,16 @@ var WorldLoader = function (game, map, tilesets) {
 
     this.map.setCollision([1]);
 
-    this.coins = game.add.group();
-    this.coins.enableBody = true;
-    this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
-
+    // знаю, что слишком много аргументов. Но так удобнее
+    this.coins = loadBox(game, this, 'coin', Coin);
+    this.healthBoxes = loadBox(game, this, 'health', HealthBox);
+    this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
+    this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 };
 
 WorldLoader.prototype.createLayer = function (key, layerName) {
     this[layerName] = this.map.createLayer(key);
     this[layerName].resizeWorld();
 };
-
-function layerOffset(layer) {
-    layer.anchor.y += 0.08;
-    layer.resize(properties.size.x, properties.size.y + 52);
-}
 
 module.exports = WorldLoader;

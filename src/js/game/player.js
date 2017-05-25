@@ -1,12 +1,13 @@
 var PLAYER_FACE_VELOCITY = 150;
 var PLAYER_BACK_VELOCITY = 70;
 var Being = require('./being.js');
+var weaponNames = require('./constants/weapon');
 
 var Player = function (game, x, y) {
     Being.call(this, game, x, y, 'player');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
-
+    this.maxHealth = 3;
     //noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
@@ -15,13 +16,14 @@ var Player = function (game, x, y) {
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
+    var backpackBullets = {};
+    // Infinity
+    backpackBullets[weaponNames.gunName] = 1000;
+    backpackBullets[weaponNames.shotGunName] = 2;
+    backpackBullets[weaponNames.ak47Name] = 0;
     this.backpack = {
         weapons: [],
-        bullets: {
-            // Infinity
-            gun: 1000,
-            shotgun: 2
-        }
+        bullets: backpackBullets
     };
     this.health = 3;
     this.alive = true;
@@ -73,20 +75,35 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.rechargeWeapon = function () {
-    var self = this;
     setTimeout(function () {
-        var weaponBullets = self.backpack.bullets[self.weapon.name];
+        var weaponBullets = this.backpack.bullets[this.weapon.name];
         if (weaponBullets) {
-            if (weaponBullets <= self.weapon.fireLimit) {
-                self.weapon.bulletsInGun = weaponBullets;
-                self.backpack.bullets[self.weapon.name] = 0;
+            if (weaponBullets <= this.weapon.fireLimit) {
+                this.weapon.bulletsInGun = weaponBullets;
+                this.backpack.bullets[this.weapon.name] = 0;
             } else {
-                self.backpack.bullets[self.weapon.name] -= self.weapon.fireLimit;
-                self.weapon.bulletsInGun = self.weapon.fireLimit;
+                this.backpack.bullets[this.weapon.name] -= this.weapon.fireLimit;
+                this.weapon.bulletsInGun = this.weapon.fireLimit;
             }
         }
-        self.rechargeState = false;
-    }, 3000);
+        this.rechargeState = false;
+    }.bind(this), 3000);
+};
+
+Player.prototype.addHealth = function (healthBox) {
+    if (this.maxHealth < this.health + healthBox.health) {
+        this.health = this.maxHealth;
+    } else {
+        this.health += healthBox.health;
+    }
+    healthBox.kill();
+};
+
+Player.prototype.addBullets = function (bulletsBox) {
+    if (this.backpack.bullets[bulletsBox.type]) {
+        this.backpack.bullets[bulletsBox.type] += bulletsBox.bullets;
+        bulletsBox.kill();
+    }
 };
 
 function getVelocity(moveDirection, playerDirection) {
