@@ -3,7 +3,6 @@ var weaponNames = require('../../constants/weapon');
 
 var Ak47Box = function (game, x, y) {
     BulletsBox.call(this, game, x, y, weaponNames.ak47Name);
-
     this.bullets = 60;
 }
 

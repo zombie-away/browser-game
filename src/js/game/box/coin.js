@@ -6,9 +6,6 @@ var Coin = function (game, x, y) {
     this.animations.play('spin', 10, true);
 
     this.sound = game.add.audio('audio-money');
-    this.events.onKilled.add(function () {
-        this.sound.play();
-    }, this);
 };
 
 Coin.prototype = Object.create(Box.prototype);
