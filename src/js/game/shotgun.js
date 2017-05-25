@@ -1,4 +1,5 @@
-var Weapon = require('./weapon.js');
+var constants = require('./constants/weapon');
+var Weapon = require('./weapon');
 var Shotgun = function (game, parent, options = {}) {
     Weapon.call(this, game, parent, 'shot');
     this.bulletSpeed = 500;
@@ -8,10 +9,8 @@ var Shotgun = function (game, parent, options = {}) {
     this.bulletKillDistance = 200;
     this.bulletAngleVariance = 5;
     this.bulletSpeedVariance = 10;
-
     this.nextFire = 0;
-    this.name = 'shotgun';
-
+    this.name = constants.shotGunName;
     this.bulletPower = 2;
 }
 

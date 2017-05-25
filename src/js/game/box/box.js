@@ -3,7 +3,7 @@ var Box = function (game, x, y, key) {
     this.animations.add('spin');
     this.animations.play('spin', 10, true);
     this.alive = true;
-}
+};
 
 Box.prototype = Object.create(Phaser.Sprite.prototype);
 Box.prototype.constructor = Box;

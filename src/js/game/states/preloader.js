@@ -1,7 +1,13 @@
 var preloader = {};
 
 preloader.preload = function () {
-    this.game.load.image('player', 'images/hero.png');
+    // this.game.load.image('player', 'images/hero.png');
+    this.game.load.image('player', 'images/player-image.png');
+    this.game.load.image('gun', 'images/gun-image.png');
+
+    // walk animation images
+    this.game.load.atlasJSONHash('legs', 'images/legs.png', 'images/legs.json');
+
     this.game.load.image('bullet', 'images/bullet.png');
     this.game.load.image('shot', 'images/shot.png');
     this.game.load.image('zombie', 'images/zombie.png');
@@ -29,6 +35,8 @@ preloader.preload = function () {
     // this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png', 16, 16);
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
+    this.game.load.image('healthBox', 'images/healthBox.png');
+    this.game.load.image('bulletsBox', 'images/bulletsBox.png');
 
     // save box spritesheet
     this.game.load.atlasJSONHash('floppy', 'images/floppy-sheets.png', 'images/floppy-sheets.json');

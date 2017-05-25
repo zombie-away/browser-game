@@ -7,7 +7,7 @@ var Weapon = function (game, parent, bulletKey) {
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     this.bulletSpeed = 600;
     this.fireRate = 500;
-    this.trackSprite(parent, 10, 0, true);
+    this.trackSprite(parent, 40, 0, true);
     this.fireLimit = 10;
     this.bulletsInGun = 10;
     this.isNoBullets = false;

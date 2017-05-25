@@ -44,6 +44,12 @@ var game = {
         box.kill();
         this.save();
     }
+    healthBoxCollision: function (player, box) {
+        player.addHealth(box);
+    },
+    bulletsBoxesCollision: function (player, box) {
+        player.addBullets(box);
+    }
 };
 
 function createPlayer(game, player) {
@@ -213,6 +219,27 @@ game.update = function () {
     game.moneyTextValue.text = this.money.toString();
     game.bulletsInGunTextValue.text = game.player.weapon.bulletsInGun;
     game.bulletsTextValue.text = '/' + game.player.backpack.bullets[game.player.weapon.name];
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.healthBoxes,
+        game.healthBoxCollision,
+        null, game
+    );
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.healthBoxes,
+        game.healthBoxCollision,
+        null, game
+    );
+
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.bulletsBoxes,
+        game.bulletsBoxesCollision,
+        null, game
+    );
 }
 
 game.render = function () {

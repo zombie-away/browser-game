@@ -1,17 +1,27 @@
 var PLAYER_FACE_VELOCITY = 150;
 var PLAYER_BACK_VELOCITY = 70;
 var Being = require('./being.js');
+var weaponNames = require('./constants/weapon');
 var serializer = require('../lib/serializer');
 var Gun = require('./gun');
 var AK47 = require('./ak47');
 var Shotgun = require('./shotgun');
-
 var Player = function (game, x, y, options) {
-    Being.call(this, game, x, y, 'player');
-    this.TURN_RATE = 9;
-    this.target = this.game.input.activePointer;
+    Being.call(this, game, x, y, 'legs');
     this.weapon = new Gun(game, this);
-    //noise zone
+
+    var body = game.add.sprite(0, 0, 'player');
+    body.anchor.setTo(0.5, 0.5);
+    this.addChild(body);
+
+    var weaponSprite = game.add.sprite(13, 0, 'gun');
+    game.physics.enable(weaponSprite, Phaser.Physics.ARCADE);
+    weaponSprite.anchor.setTo(0.5, 0.5);
+    this.addChild(weaponSprite);
+
+    this.walkAnimation = this.animations.add('walk', Phaser.Animation.generateFrameNames('legs_', 1, 6, '.png', 4), 10, true, false);
+
+    // noise zone
     var noiseZone = game.add.graphics(0, 0);
     noiseZone.lineStyle(2, 0xe1e1e1);
     noiseZone.drawCircle(0, 0, 400);
@@ -19,18 +29,18 @@ var Player = function (game, x, y, options) {
     noiseZone.anchor.setTo(0.5, 0.5);
     this.noiseZone = noiseZone;
     this.addChild(noiseZone);
+    var backpackBullets = {};
+    // Infinity
+    backpackBullets[weaponNames.gunName] = options.gun || 1000;
+    backpackBullets[weaponNames.shotGunName] = options.shotgun || 2;
+    backpackBullets[weaponNames.ak47Name] = options.ak47 || 0;
     this.backpack = {
         weapons: [this.weapon, new Shotgun(game, this), new AK47(game, this)],
-        bullets: {
-            gun: options.gun || 1000,
-            shotgun: options.shotgun || 2,
-            ak47: options.ak47 || 0
-        }
+        bullets: backpackBullets
     };
     this.health = options.health || 3;
     this.alive = true;
     this.maxHealth = options.maxHealth || 3;
-
     this.rechargeState = false;
 }
 
@@ -89,6 +99,7 @@ Player.deserialize = function (playerData, game) {
 };
 
 Player.prototype.update = function () {
+    this.setState(this);
     this.turnToTarget({x: this.target.worldX, y: this.target.worldY});
     var cursors = this.game.input.keyboard.addKeys(
         {
@@ -129,20 +140,35 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.rechargeWeapon = function () {
-    var self = this;
     setTimeout(function () {
-        var weaponBullets = self.backpack.bullets[self.weapon.name];
+        var weaponBullets = this.backpack.bullets[this.weapon.name];
         if (weaponBullets) {
-            if (weaponBullets <= self.weapon.fireLimit) {
-                self.weapon.bulletsInGun = weaponBullets;
-                self.backpack.bullets[self.weapon.name] = 0;
+            if (weaponBullets <= this.weapon.fireLimit) {
+                this.weapon.bulletsInGun = weaponBullets;
+                this.backpack.bullets[this.weapon.name] = 0;
             } else {
-                self.backpack.bullets[self.weapon.name] -= self.weapon.fireLimit;
-                self.weapon.bulletsInGun = self.weapon.fireLimit;
+                this.backpack.bullets[this.weapon.name] -= this.weapon.fireLimit;
+                this.weapon.bulletsInGun = this.weapon.fireLimit;
             }
         }
-        self.rechargeState = false;
-    }, 3000);
+        this.rechargeState = false;
+    }.bind(this), 3000);
+};
+
+Player.prototype.addHealth = function (healthBox) {
+    if (this.maxHealth < this.health + healthBox.health) {
+        this.health = this.maxHealth;
+    } else {
+        this.health += healthBox.health;
+    }
+    healthBox.kill();
+};
+
+Player.prototype.addBullets = function (bulletsBox) {
+    if (this.backpack.bullets[bulletsBox.type]) {
+        this.backpack.bullets[bulletsBox.type] += bulletsBox.bullets;
+        bulletsBox.kill();
+    }
 };
 
 function getVelocity(moveDirection, playerDirection) {
@@ -176,5 +202,14 @@ function weaponChangeHandler(player) {
     }
 
 }
+
+Player.prototype.setState = function (state) {
+    if (state.body.speed === 0) {
+        this.walkAnimation.stop();
+    } else {
+        this.animations.play('walk', state.body.speed / 10, true);
+        this.walkAnimation.speed = state.body.speed / 10;
+    }
+};
 
 module.exports = Player;

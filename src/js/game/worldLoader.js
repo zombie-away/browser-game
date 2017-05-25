@@ -8,6 +8,17 @@ var Gun = require('./gun');
 var AK47 = require('./ak47');
 var Shotgun = require('./shotgun');
 var SaveBox = require('./box/savebox');
+var GunBox = require('./box/bullets/gunBox');
+var ShotGunBox = require('./box/bullets/shotGunBox');
+var HealthBox = require('./box/health');
+
+function loadBox(game, world, name, spriteObject) {
+    var result = game.add.group();
+    result.enableBody = true;
+    world.map.createFromObjects('meta', name, name, 0, true, true, result, spriteObject);
+
+    return result;
+}
 
 var WorldLoader = function (game, map, options = {}) {
     game.stage.backgroundColor = "#e1e1e1";
@@ -55,16 +66,22 @@ var WorldLoader = function (game, map, options = {}) {
     this.zombies.addMultiple(zombies);
     this.map.setCollision([1]);
 
-    this.coins = game.add.group();
     this.saveBoxes = game.add.group();
-    this.coins.enableBody = true;
+    this.coins = game.add.group();
+    // this.coins.enableBody = true;
     this.saveBoxes.enableBody = true;
     if (!options.coins) {
-        this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
+        this.coins = loadBox(game, this, 'coin', Coin);
+        // this.map.createFromObjects('meta', 'coin', 'coin', 0, true, true, this.coins, Coin);
     }
     if (!options.saveBoxes) {
-        this.map.createFromObjects('meta', 'savepoint', 'savepoint', 0, true, true, this.saveBoxes, SaveBox);
+        this.saveBoxes = loadBox(game, this, 'savepoint', SaveBox);
+        // this.map.createFromObjects('meta', 'savepoint', 'savepoint', 0, true, true, this.saveBoxes, SaveBox);
     }
+    // знаю, что слишком много аргументов. Но так удобнее
+    this.healthBoxes = loadBox(game, this, 'health', HealthBox);
+    this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
+    this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 
     if (options.player) {
         var loadData = WorldLoader.deserialize(options, game);
