@@ -1,8 +1,9 @@
-var Stats = require('Stats')
+var Stats = require('../../lib/stats.min.js')
   , properties = require('../properties')
   , boot = {};
+
 boot.init = function () {
-    
+
 }
 boot.create = function () {
 
