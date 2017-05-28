@@ -1,6 +1,7 @@
 var Weapon = require('./weapon');
 var constants = require('./constants/weapon');
-var Gun = function (game, parent, options = {}) {
+var Gun = function (game, parent, options) {
+    options = options || {};
     Weapon.call(this, game, parent, 'bullet');
     this.bulletsInGun = options.bulletsInGun || 10;
     this.fireLimit = 10;

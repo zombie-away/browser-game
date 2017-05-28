@@ -18,7 +18,7 @@ function hasIntersection(x, y, radius) {
     if (zombies instanceof Phaser.Group) {
         zombies = Spawner.zombies.children;
     }
-    zombies.forEach(zombie => {
+    zombies.forEach(function (zombie) {
         if (Math.abs(zombie.x - x) <= radius && Math.abs(zombie.y - y) <= radius) {
             hasIntersectionFlag = true;
         }

@@ -14,11 +14,5 @@ html
     script(src="js/phaser.js")
     script(src="js/app.min.js")
 
-    include analytics.jade
-
   body
     #game
-
-    if (!productionBuild)
-      script.
-        document.write('<script src="//' + window.location.hostname + ':#{properties.liveReloadPort}/livereload.js"><\/script>');
