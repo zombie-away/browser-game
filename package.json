@@ -50,9 +50,9 @@
     "grunt-pngmin": "^1.0.2",
     "lodash": "^4.6.1",
     "morgan": "^1.8.2",
-    "phaser": "^2.6.2"
+    "phaser": "^2.6.2",
+    "babelify": "^7.3.0"
   },
   "devDependencies": {
-    "babelify": "^7.3.0"
   }
 }
