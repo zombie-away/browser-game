@@ -23,6 +23,7 @@ preloader.preload = function () {
 
     // walk animation images
     this.game.load.atlasJSONHash('legs', 'images/legs.png', 'images/legs.json');
+    this.game.load.atlasJSONHash('zombies', 'images/zombies.png', 'images/zombie-sheets.json');
 
     this.game.load.image('bullet', 'images/bullet.png');
     this.game.load.image('shot', 'images/shot.png');
@@ -61,7 +62,6 @@ preloader.preload = function () {
     this.game.load.image('pause-btn', 'images/pause-btn.png');
 
     this.game.load.image('menu', 'images/menu.jpg');
-    this.game.load.spritesheet('button-start', 'images/button-start.png', 196, 70);
     this.game.load.spritesheet('playBtn', 'images/playbtn.png');
     this.game.load.image('gameover', 'images/gameover.png');
 
