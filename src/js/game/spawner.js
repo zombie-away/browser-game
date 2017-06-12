@@ -29,7 +29,7 @@ function hasIntersection(x, y, radius) {
 
 Spawner.prototype.update = function() {
     if (!this.isPause && this.game.time.time > this.spawnTimer &&
-        Spawner.zombies.length <= 30 && !hasIntersection(this.x, this.y, 30)) {
+        Spawner.zombies.length < 30 && !hasIntersection(this.x, this.y, 50)) {
         this.spawnTimer = this.respawnDelay + this.game.time.time;
         this.zombieCount--;
         if (Spawner.zombies instanceof Array) {

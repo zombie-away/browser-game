@@ -41,6 +41,7 @@ var WorldLoader = function (game, map, options = {}) {
     this.createLayer('collisions', 'collisionLayer');
     this.createLayer('base', 'baseLayer');
 
+
     if (!options.player) {
         this.players = loadBox(game, this, 'player', Player);
         this.player = this.players.children[0];
