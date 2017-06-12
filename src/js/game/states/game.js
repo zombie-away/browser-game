@@ -58,6 +58,11 @@ var game = {
 
     bulletsBoxesCollision: function (player, box) {
         player.addBullets(box);
+    },
+
+    winPointCollision: function (player, point) {
+        point.endGame();
+        this.game.state.start('win', true, false, { score: game.score, money: game.money });
     }
 };
 
@@ -251,12 +256,13 @@ game.update = function () {
         game.bulletsBoxesCollision,
         null, game
     );
-}
 
-game.render = function () {
-    // this.game.debug.bodyInfo(game.player, 16, 24);
-    // this.game.debug.spriteBounds(game.coins);
-    // this.game.debug.text('Sprite z-depth: ' + sprite.z, 10, 20);
+    game.physics.arcade.overlap(
+        game.player,
+        game.worldMap.endPoints,
+        game.winPointCollision,
+        null, game
+    );
 }
 
 game.serialize = function () {
@@ -273,19 +279,6 @@ game.serialize = function () {
 game.save = function(key) {
     if (!key) key = 'default';
 	localStorage.setItem(`save-${key}`, JSON.stringify(game.serialize()));
-};
-
-game.autosaveOn = function (interval = 5) {
-	this.autosaveTimer = setInterval(function() {
-		this.save();
-	}.bind(this), interval * 1000);
-};
-
-game.autosaveOff = function () {
-	if (this.autosaveTimer) {
-		clearInterval(this.autosaveTimer);
-		this.autosaveTimer = null;
-	}
 };
 
 game.loadGame = function(key) {

@@ -10,6 +10,7 @@ var Shotgun = require('./shotgun');
 var SaveBox = require('./box/saveBox');
 var GunBox = require('./box/bullets/gunBox');
 var ShotGunBox = require('./box/bullets/shotGunBox');
+var WinBox = require('./box/winBox');
 var HealthBox = require('./box/health');
 var weaponNames = require('./constants/weapon');
 
@@ -57,6 +58,7 @@ var WorldLoader = function (game, map, options = {}) {
     this.saveBoxes = loadBox(game, this, 'savepoint', SaveBox);
     this.healthBoxes = loadBox(game, this, 'health', HealthBox);
     this.bulletsBoxes = loadBox(game, this, 'shotGunBox', ShotGunBox);
+    this.endPoints = loadBox(game, this, 'winpoint', WinBox);
     this.bulletsBoxes.addMultiple(loadBox(game, this, 'gunBox', GunBox));
 
     Spawner.zombies = game.add.group();

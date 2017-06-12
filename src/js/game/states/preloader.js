@@ -63,6 +63,7 @@ preloader.preload = function () {
 
     this.game.load.image('menu', 'images/menu.jpg');
     this.game.load.spritesheet('playBtn', 'images/playbtn.png');
+    this.game.load.spritesheet('arrows', 'images/arrow-spritesheet.png', 36, 27, 4);
     this.game.load.image('gameover', 'images/gameover.png');
 
 

@@ -1,5 +1,10 @@
 module.exports = function (game, text, coords, callback) {
-    var optionStyle = { font: '35px Segoe Script', fill: '#111', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
+    var optionStyle = {
+        font: '35px Segoe Script',
+        fill: '#111',
+        stroke: 'rgba(0,0,0,0)',
+        srokeThickness: 4
+    };
     var txt = game.add.text(coords.x, coords.y, text, optionStyle);
     txt.lineSpacing = -20;
     var onOver = function (target) {

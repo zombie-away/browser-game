@@ -1,11 +1,12 @@
 var _ = require('lodash'),
     properties = require('./properties'),
     states = {
-        boot: require('./states/boot.js'),
-        preloader: require('./states/preloader.js'),
-        menu: require('./states/menu.js'),
-        game: require('./states/game.js'),
-        gameover: require('./states/gameover.js')
+        boot: require('./states/boot'),
+        preloader: require('./states/preloader'),
+        menu: require('./states/menu'),
+        game: require('./states/game'),
+        gameover: require('./states/gameover'),
+        win: require('./states/win')
     },
     game = new Phaser.Game(properties.size.x, properties.size.y, Phaser.AUTO, 'game');
     // game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'game');

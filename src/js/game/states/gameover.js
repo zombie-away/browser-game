@@ -1,5 +1,6 @@
 var addMenuOption = require('../../lib/addOption');
 // var properties = require('../properties');
+var textStyle = require('../constants/textStyle').gameoverScore;
 
 var GameOver = {
     init: function (param) {
@@ -30,8 +31,8 @@ var GameOver = {
             }.bind(this)
         );
         optionContinue.anchor.setTo(0.5);
-        this.add.text(this.game.camera.width / 2 - 25, this.game.camera.height / 2, 'Очки', { font: "bold 16px sans-serif", fill: "#46c0f9", align: "center" });
-        this.add.text(this.game.camera.width / 2 + 25, this.game.camera.height / 2, this.score, { font: "bold 20px sans-serif", fill: "#46c0f9", align: "center" });
+        this.add.text(this.game.camera.width / 2 - 25, this.game.camera.height / 2, 'Очки', textStyle);
+        this.add.text(this.game.camera.width / 2 + 25, this.game.camera.height / 2, this.score, textStyle);
     },
     startGame: function ()
     {
