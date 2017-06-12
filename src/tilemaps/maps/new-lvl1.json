@@ -1020,6 +1020,18 @@
                  "width":0,
                  "x":23,
                  "y":619
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "id":112,
+                 "name":"winpoint",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":176,
+                 "y":178
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1028,7 +1040,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":111,
+ "nextobjectid":114,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":16,
