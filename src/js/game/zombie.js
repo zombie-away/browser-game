@@ -38,6 +38,7 @@ Zombie.deserialize = function (zombieData, game) {
 };
 
 Zombie.prototype.update = function() {
+    this.setWalkingState(15);
     if (!this.alive) this.kill();
     if (this.target) {
         this.turnToTarget(this.target);

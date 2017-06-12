@@ -8,14 +8,10 @@ var AK47 = require('./ak47');
 var Shotgun = require('./shotgun');
 
 var Player = function (game, x, y, options) {
-    Being.call(this, game, x, y, 'legs');
+    Being.call(this, game, x, y, 'player');
     this.TURN_RATE = 9;
     this.target = this.game.input.activePointer;
     this.weapon = new Gun(game, this);
-
-    var body = game.add.sprite(0, 0, 'player');
-    body.anchor.setTo(0.5, 0.5);
-    this.addChild(body);
 
     var weaponSprite = game.add.sprite(13, 0, 'gun');
     game.physics.enable(weaponSprite, Phaser.Physics.ARCADE);
@@ -102,7 +98,7 @@ Player.deserialize = function (playerData, game) {
 };
 
 Player.prototype.update = function () {
-    this.setState(this);
+    this.setWalkingState(10);
     this.turnToTarget({x: this.target.worldX, y: this.target.worldY});
     var cursors = this.game.input.keyboard.addKeys(
         {
@@ -117,19 +113,15 @@ Player.prototype.update = function () {
     this.body.velocity.y = 0;
     if (cursors.up.isDown) {
         this.body.velocity.y = - getVelocity(-90, this.body.rotation);
-        this.animations.play('up');
     }
     if (cursors.down.isDown) {
         this.body.velocity.y = getVelocity(90, this.body.rotation);
-        this.animations.play('down');
     }
     if (cursors.left.isDown) {
         this.body.velocity.x = - getVelocity(-180, this.body.rotation);
-        this.animations.play('left');
     }
     if (cursors.right.isDown) {
         this.body.velocity.x = getVelocity(0, this.body.rotation);
-        this.animations.play('right');
     }
 
     if (this.weapon && (this.weapon.bulletsInGun === 0 || cursors.recharge.isDown)) {
@@ -206,14 +198,5 @@ function weaponChangeHandler(player) {
     }
 
 }
-
-Player.prototype.setState = function (state) {
-    if (state.body.speed === 0) {
-        this.walkAnimation.stop();
-    } else {
-        this.animations.play('walk', state.body.speed / 10, true);
-        this.walkAnimation.speed = state.body.speed / 10;
-    }
-};
 
 module.exports = Player;
