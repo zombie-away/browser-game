@@ -52,7 +52,8 @@ var game = {
     },
 
     healthBoxCollision: function (player, box) {
-        player.addHealth(box);
+        player.addHealth(box.health);
+        box.kill();
     },
 
     bulletsBoxesCollision: function (player, box) {
@@ -172,7 +173,7 @@ game.create = function () {
     }
     game.worldMap = new WorldLoader(this.game, LEVELS[this.level], stats.worldMap);
     // this.game.scale.setGameSize(game.worldMap.map.widthInPixels, this.game.height);
-    
+
     //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);

@@ -151,13 +151,13 @@ Player.prototype.rechargeWeapon = function () {
     }.bind(this), 3000);
 };
 
-Player.prototype.addHealth = function (healthBox) {
-    if (this.maxHealth < this.health + healthBox.health) {
+Player.prototype.addHealth = function (health) {
+    if (this.maxHealth < this.health + health) {
         this.health = this.maxHealth;
     } else {
-        this.health += healthBox.health;
+        this.health += health;
     }
-    healthBox.kill();
+    this.onHealthChange.dispatch((this.health / this.maxHealth) * 100);
 };
 
 Player.prototype.addBullets = function (bulletsBox) {
