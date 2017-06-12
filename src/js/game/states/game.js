@@ -198,7 +198,7 @@ game.update = function () {
         game
     );
     game.physics.arcade.collide(game.player, game.worldMap.collisionLayer);
-    game.physics.arcade.collide(game.worldMap.zombies, game.worldMap.zombies);
+    game.physics.arcade.collide(game.worldMap.zombies.children, game.worldMap.zombies.children);
     game.physics.arcade.collide(game.worldMap.zombies, game.worldMap.collisionLayer);
     game.physics.arcade.collide(
         game.player.weapon.bullets,
