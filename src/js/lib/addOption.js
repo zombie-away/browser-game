@@ -10,7 +10,7 @@ module.exports = function (game, text, coords, callback) {
         target.fill = "#111";
         target.stroke = "rgba(0,0,0,0)";
     };
-    txt.stroke = "rgba(0,0,0,0";
+    txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
     txt.inputEnabled = true;
     txt.events.onInputUp.add(callback);

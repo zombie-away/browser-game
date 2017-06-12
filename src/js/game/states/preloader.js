@@ -1,7 +1,23 @@
 var preloader = {};
 
 preloader.preload = function () {
-    // this.game.load.image('player', 'images/hero.png');
+    // this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    // this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+    // this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+    // this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+    // phaser.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+    // this.game.scale.setResizeCallback(function() {
+    //     this.game.scale.setMaximum();
+    // }.bind(this));
+    // this.game.scale.setShowAll();
+    // window.addEventListener('resize', function () {
+    //     this.game.scale.refresh();
+    // });
+
+    // this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    // this.game.scale.startFullScreen(false);
+    // this.game.scale.refresh();
+
     this.game.load.image('player', 'images/player-image.png');
     this.game.load.image('gun', 'images/gun-image.png');
 
@@ -58,6 +74,21 @@ preloader.preload = function () {
     this.game.load.audio('audio-money', 'audio/money.mp3');
     this.game.load.audio('audio-bullet-box', 'audio/bullet-box.wav');
     this.game.load.audio('audio-health-box', 'audio/health-box.mp3');
+
+    // центрирование
+    // this.game.fullScreenScaleMode = Phaser.ScaleManager.RESIZE;
+
+    // this.scale.setShowAll();
+    // this.scale.pageAlignHorizontally = true;
+    // this.scale.pageAlignVeritcally = true;
+    // this.game.scale.refresh();
+
+    this.game.scaleMode = Phaser.ScaleManager.RESIZE;
+    // this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    // this.scale.minWidth = 0;
+    // this.scale.minHeight = 0;
+    // this.scale.maxWidth = 1768;
+    // this.scale.maxHeight = 1152;
 };
 
 preloader.create = function () {

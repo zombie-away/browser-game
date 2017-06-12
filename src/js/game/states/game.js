@@ -17,7 +17,7 @@ var game = {
     init: function (param) {
         this.mode = param;
     },
-    
+
     bulletAndZombieCollision: function (bullet, zombie) {
         if (zombie.damage(bullet.power)) {
             this.score += 10;
@@ -171,6 +171,8 @@ game.create = function () {
         this[key] = stats[key];
     }
     game.worldMap = new WorldLoader(this.game, LEVELS[this.level], stats.worldMap);
+    // this.game.scale.setGameSize(game.worldMap.map.widthInPixels, this.game.height);
+    
     //player
     createPlayer(game, game.worldMap.player);
     createInterface(game);

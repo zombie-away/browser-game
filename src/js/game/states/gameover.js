@@ -1,4 +1,5 @@
 var addMenuOption = require('../../lib/addOption');
+// var properties = require('../properties');
 
 var GameOver = {
     init: function (param) {
@@ -12,7 +13,7 @@ var GameOver = {
             y: this.game.camera.height / 2 + 100
         };
         var optionNewText = 'Новая игра';
-        var optionContinueText = 'Продолжить с чекпоинта';
+        var optionContinueText = 'Продолжить';
         var optionNew = addMenuOption(this.game, optionNewText, coords,
             function (target) {
                 this.startGame();
