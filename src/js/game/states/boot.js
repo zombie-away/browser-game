@@ -3,8 +3,14 @@ var Stats = require('../../lib/stats.min.js')
   , boot = {};
 
 boot.init = function () {
-
+    // Тут должен быть scale
 }
+
+boot.preload = function () {
+    this.stage.backgroundColor = "#fff";
+    this.game.load.image('loader',"images/loader.gif");
+};
+
 boot.create = function () {
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVeritcally = true;
