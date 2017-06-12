@@ -1,6 +1,9 @@
 var preloader = {};
 
 preloader.preload = function () {
+    var loadingBar = this.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'loader');
+    loadingBar.anchor.setTo(0.5);
+    // loadingBar.
     // this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     // this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     // this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
