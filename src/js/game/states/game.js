@@ -76,6 +76,8 @@ function addSprite(game, coords, spriteName) {
     var sprite = game.add.sprite(coords.x, coords.y, spriteName);
     sprite.fixedToCamera = true;
     sprite.anchor.setTo(0.5, 0.5);
+
+    return sprite;
 }
 
 function createHealthBar(game) {
@@ -91,14 +93,14 @@ function createWeaponPanel(game) {
         x: lifePanelConst.bulletsTextX,
         y: lifePanelConst.bulletsTextY
     };
-    var text = `/${game.player.backpack.bullets[game.player.weapon.name].toString()}`;
+    var text = `/${game.player.backpack.bullets[game.player.weapon.name]}`;
     game.bulletsTextValue = addText(game, bulletsTextCoords, text);
 
     bulletsTextCoords = {
         x: lifePanelConst.bulletsInGunTextX,
         y: lifePanelConst.bulletsInGunTextY
     };
-    text = game.player.weapon.bulletsInGun.toString();
+    text = game.player.weapon.bulletsInGun;
     game.bulletsInGunTextValue = addText(game, bulletsTextCoords, text);
 }
 
@@ -124,7 +126,11 @@ function createHeroPanel(game) {
         y: lifePanelConst.gunForLifePanelY
     };
     addSprite(game, heartCoordinates, 'heartForLifePanel');
-    addSprite(game, gunImagesCoordinates, 'gun-panel');
+    var weaponIconSprite = addSprite(game, gunImagesCoordinates, game.player.weapon.icon);
+    game.player.onChangedWeapon.add(function (weapon) {
+        weaponIconSprite.kill();
+        weaponIconSprite = addSprite(game, gunImagesCoordinates, weapon.icon);
+    });
     createHealthBar(game);
     createWeaponPanel(game);
 }

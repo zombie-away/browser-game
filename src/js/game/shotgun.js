@@ -13,6 +13,7 @@ var Shotgun = function (game, parent, options) {
     this.nextFire = 0;
     this.name = constants.shotGunName;
     this.bulletPower = 2;
+    this.icon = 'shotgun-panel';
 }
 
 Shotgun.prototype = Object.create(Weapon.prototype);

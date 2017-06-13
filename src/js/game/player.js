@@ -41,6 +41,7 @@ var Player = function (game, x, y, options) {
     this.maxHealth = options.maxHealth || 3;
     this.rechargeState = false;
     this.cockSound = game.add.audio('audio-cock');
+    this.onChangedWeapon = new Phaser.Signal();
 }
 
 Player.prototype = Object.create(Being.prototype);
@@ -179,6 +180,7 @@ function getVelocity(moveDirection, playerDirection) {
 }
 
 function weaponChangeHandler(player) {
+
     var keys = player.game.input.keyboard.addKeys(
         {
             'firstWeapon': Phaser.KeyCode.ONE,
@@ -196,7 +198,7 @@ function weaponChangeHandler(player) {
     if (keys.thridWeapon.isDown && player.backpack.weapons[2]) {
         player.weapon = player.backpack.weapons[2];
     }
-
+    player.onChangedWeapon.dispatch(player.weapon);
 }
 
 module.exports = Player;
