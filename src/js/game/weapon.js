@@ -12,13 +12,15 @@ var Weapon = function (game, parent, bulletKey) {
     this.bulletsInGun = 10;
     this.isNoBullets = false;
     this.bulletPower = 5;
-    this.shootSound = game.add.audio('audio-shotgun');
+    this.shotSound = game.add.audio('audio-shotgun');
 
     this.onFire.add(function (bullet, weapon) {
         bullet.power = this.bulletPower;
         this.bulletsInGun--;
-        this.shootSound.play();
+        this.shotSound.play();
     }, this);
+
+    this.icon = 'gun-panel';
 }
 
 Weapon.prototype = Object.create(Phaser.Weapon.prototype);
