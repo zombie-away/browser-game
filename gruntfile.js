@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-      
+
         properties: properties,
 
         project: {
@@ -76,8 +76,8 @@ module.exports = function (grunt) {
                 tasks: ['jade']
             },
 
-            sass: { 
-                files: 'src/style/*.scss', 
+            sass: {
+                files: 'src/style/*.scss',
                 tasks: ['sass']
             },
 
@@ -149,7 +149,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-                     
+
         sass: {
             compile: {
                 files: {
