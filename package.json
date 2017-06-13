@@ -55,5 +55,6 @@
     "babelify": "^7.3.0"
   },
   "devDependencies": {
+    "grunt-contrib-sass": "^1.0.0"
   }
 }

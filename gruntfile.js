@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
+      
         properties: properties,
 
         project: {
@@ -76,9 +76,9 @@ module.exports = function (grunt) {
                 tasks: ['jade']
             },
 
-            stylus: {
-                files: 'src/style/*.styl',
-                tasks: ['stylus']
+            sass: { 
+                files: 'src/style/*.scss', 
+                tasks: ['sass']
             },
 
             images: {
@@ -149,14 +149,11 @@ module.exports = function (grunt) {
                 }
             }
         },
-
-        stylus: {
+                     
+        sass: {
             compile: {
                 files: {
-                    'build/style/index.css': ['src/style/index.styl']
-                },
-                options: {
-                    sourcemaps: !productionBuild
+                    'build/style/index.css': ['src/style/index.scss']
                 }
             }
         },
@@ -300,7 +297,7 @@ module.exports = function (grunt) {
             'clean',
             'browserify',
             'jade',
-            'stylus',
+            'sass',
             'copy:images',
             'copy:tilemaps',
             'copy:audio',
@@ -316,7 +313,7 @@ module.exports = function (grunt) {
         [
             'clean',
             'browserify',
-            'stylus',
+            'sass',
             'uglify',
             'copy:images',
             'copy:tilemaps',
