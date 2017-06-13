@@ -50,8 +50,6 @@ var WorldLoader = function (game, map, options = {}) {
         this.player = Player.deserialize(options.player, game);
     }
 
-    this.createLayer('second', 'secondLayer');
-    this.createLayer('third', 'thirdLayer');
 
     var zombies = loadBox(game, this, 'zombie', Zombie);
     this.coins = loadBox(game, this, 'coin', Coin);
@@ -66,6 +64,9 @@ var WorldLoader = function (game, map, options = {}) {
     this.zombies = Spawner.zombies;
     this.zombies.addMultiple(zombies);
 
+    this.createLayer('second', 'secondLayer');
+    this.createLayer('third', 'thirdLayer');
+    this.createLayer('fourth', 'fourthLayer');
     this.map.setCollision([1]);
     if (options.player) {
         var loadData = WorldLoader.deserialize(options, game);

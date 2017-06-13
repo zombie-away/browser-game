@@ -54,7 +54,6 @@ preloader.preload = function () {
     this.game.load.image('mountains-tiles', 'tilemaps/tiles/mountains.png', 16, 16);
     this.game.load.image('cup-tiles', 'tilemaps/tiles/cup.png', 16, 16);
     this.game.load.image('signs-tiles', 'tilemaps/tiles/signs.png', 16, 16);
-    // this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png', 16, 16);
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
     this.game.load.image('healthBox', 'images/health-box.png');
