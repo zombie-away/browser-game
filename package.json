@@ -52,9 +52,9 @@
     "lodash": "^4.6.1",
     "morgan": "^1.8.2",
     "phaser": "^2.6.2",
-    "babelify": "^7.3.0"
+    "babelify": "^7.3.0",
+    "grunt-contrib-sass": "^1.0.0"
   },
   "devDependencies": {
-    "grunt-contrib-sass": "^1.0.0"
   }
 }
