@@ -1,15 +1,15 @@
 var npmProperties = require('../../../package.json');
 
 module.exports = {
-        title: 'Phaser JS Boilerplate',
+        title: 'Zombie-away',
         description: npmProperties.description,
         port: 3017,
         liveReloadPort: 3018,
         mute: false,
         showStats: true,
         size: {
-            x: 950,
-            y: 600
+            x: 480,
+            y: '100%'
         },
         analyticsId: 'UA-50892214-2'
     };

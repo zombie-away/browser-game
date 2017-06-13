@@ -1,38 +1,47 @@
-var Stats = require('Stats')
+var Stats = require('../../lib/stats.min.js')
   , properties = require('../properties')
   , boot = {};
+
 boot.init = function () {
-    
+    // Тут должен быть scale
 }
+
+boot.preload = function () {
+    this.stage.backgroundColor = "#fff";
+    this.game.load.image('loader',"images/loader.gif");
+};
+
 boot.create = function () {
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVeritcally = true;
+    this.game.scale.refresh();
+    if (properties.showStats) {
+        addStats(this.game);
+    }
 
-  if (properties.showStats) {
-    addStats(this.game);
-  }
+    this.game.sound.mute = properties.mute;
 
-  this.game.sound.mute = properties.mute;
-
-  this.game.state.start('preloader');
+    this.game.state.start('preloader');
 };
 
 function addStats(game) {
-  var stats = new Stats();
+    var stats = new Stats();
 
-  stats.setMode(0);
+    stats.setMode(0);
 
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.right = '0px';
-  stats.domElement.style.top = '0px';
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.right = '0px';
+    stats.domElement.style.top = '0px';
 
-  document.body.appendChild(stats.domElement);
+    document.body.appendChild(stats.domElement);
 
   // In order to correctly monitor FPS, we have to make calls to the stats package before and after phaser's update.
-  var oldUpdate = game.update;
-  game.update = function() {
-    stats.begin();
-    oldUpdate.apply(game, arguments);
-    stats.end();
-  };
+    var oldUpdate = game.update;
+    game.update = function() {
+        stats.begin();
+        oldUpdate.apply(game, arguments);
+        stats.end();
+    };
 }
 
 module.exports = boot;

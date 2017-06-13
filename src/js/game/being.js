@@ -1,5 +1,11 @@
 var Being = function (game, x, y, key) {
-    Phaser.Sprite.call(this, game, x, y, key);
+    Phaser.Sprite.call(this, game, x, y, 'legs');
+
+    var body = game.add.sprite(0, 0, key);
+    body.anchor.setTo(0.4, 0.5);
+    this.addChild(body);
+    this.walkAnimation = this.animations.add('walk', Phaser.Animation.generateFrameNames('legs_', 1, 6, '.png', 4), 10, true, false);
+
     this.anchor.setTo(0.5, 0.5);
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.TURN_RATE = 5;
@@ -11,7 +17,7 @@ var Being = function (game, x, y, key) {
     this.target = null;
     this.maxHealth = 10;
     this.onHealthChange = new Phaser.Signal();
-}
+};
 
 Being.prototype = Object.create(Phaser.Sprite.prototype);
 Being.prototype.constructor = Being;
@@ -65,6 +71,15 @@ Being.prototype.attack = function (target) {
         }, 1000);
 
         return false;
+    }
+};
+
+Being.prototype.setWalkingState = function (speedDenominator) {
+    if (this.body.speed === 0) {
+        this.walkAnimation.stop();
+    } else {
+        this.animations.play('walk', this.body.speed / speedDenominator, true);
+        this.walkAnimation.speed = this.body.speed / speedDenominator;
     }
 };
 

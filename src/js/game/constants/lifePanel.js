@@ -1,14 +1,14 @@
 module.exports = {
-    panelX: 150,
-    panelY: 500,
-    healthBarX: 180,
-    healthBarY: 450,
-    heartX: 65,
-    heartY: 450,
-    gunForLifePanelX: 65,
-    gunForLifePanelY: 500,
-    bulletsTextX: 180,
-    bulletsTextY: 485,
-    bulletsInGunTextX: 150,
-    bulletsInGunTextY: 485
+    panelX: 250,
+    panelY: 40,
+    healthBarX: 310,
+    healthBarY: 55,
+    heartX: 205,
+    heartY: 55,
+    gunForLifePanelX: 205,
+    gunForLifePanelY: 85,
+    bulletsTextX: 265,
+    bulletsTextY: 70,
+    bulletsInGunTextX: 235,
+    bulletsInGunTextY: 70
 };

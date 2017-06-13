@@ -1,19 +1,45 @@
+var addMenuOption = require('../../lib/addOption');
+// var properties = require('../properties');
+var textStyle = require('../constants/textStyle').gameoverScore;
+
 var GameOver = {
-    score: 0,
     init: function (param) {
-        this.score = param;
-        console.log(param);
+        this.score = param ? param.toString() : '0';
     },
     create: function ()
     {
-        console.log(arguments);
-        this.add.button(0, 0, 'playBtn', this.startGame, this);
-        this.add.text(235, 350, "LAST SCORE", { font: "bold 16px sans-serif", fill: "#46c0f9", align: "center" });
-        this.add.text(350, 348, this.score.toString(), { font: "bold 20px sans-serif", fill: "#fff", align: "center" });
+        var title = this.add.sprite(this.game.camera.width / 2, 100, 'gameover');
+        var coords = {
+            x: this.game.camera.width / 2,
+            y: this.game.camera.height / 2 + 100
+        };
+        var optionNewText = 'Новая игра';
+        var optionContinueText = 'Продолжить';
+        var optionNew = addMenuOption(this.game, optionNewText, coords,
+            function (target) {
+                this.startGame();
+            }.bind(this)
+        );
+
+        title.anchor.setTo(0.5);
+        this.stage.backgroundColor = "#fff";
+        optionNew.anchor.setTo(0.5);
+        coords.y = coords.y + 50;
+        var optionContinue = addMenuOption(this.game, optionContinueText, coords,
+            function (target) {
+                this.continueGame();
+            }.bind(this)
+        );
+        optionContinue.anchor.setTo(0.5);
+        this.add.text(this.game.camera.width / 2 - 25, this.game.camera.height / 2, 'Очки', textStyle);
+        this.add.text(this.game.camera.width / 2 + 25, this.game.camera.height / 2, this.score, textStyle);
     },
     startGame: function ()
     {
-        this.state.start('game');
+        this.state.start('game', true, false, 'new');
+    },
+    continueGame: function () {
+        this.state.start('game', true, false, 'continue');
     }
 };
 

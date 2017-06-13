@@ -1,0 +1,108 @@
+{"frames": {
+
+"floppy_0001.png":
+{
+	"frame": {"x":0,"y":0,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0002.png":
+{
+	"frame": {"x":0,"y":36,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0003.png":
+{
+	"frame": {"x":0,"y":72,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0004.png":
+{
+	"frame": {"x":0,"y":108,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0005.png":
+{
+	"frame": {"x":0,"y":144,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0006.png":
+{
+	"frame": {"x":0,"y":180,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0007.png":
+{
+	"frame": {"x":0,"y":216,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0008.png":
+{
+	"frame": {"x":0,"y":252,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0009.png":
+{
+	"frame": {"x":0,"y":288,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0010.png":
+{
+	"frame": {"x":0,"y":324,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0011.png":
+{
+	"frame": {"x":0,"y":360,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+},
+"floppy_0012.png":
+{
+	"frame": {"x":0,"y":396,"w":30,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":36},
+	"sourceSize": {"w":30,"h":36}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "floppy-sheets.png",
+	"format": "RGBA8888",
+	"size": {"w":30,"h":432},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:142ad37a083c6eec949b4d8aa1975370:f3d4b932dfc5ab19e62a42adc37d8345:7fab87313b83081739ac7977b2e7bbd5$"
+}
+}
