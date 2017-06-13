@@ -57,7 +57,7 @@ preloader.preload = function () {
     // this.game.load.image('collisionTile', 'tilemaps/tiles/collision.png', 16, 16);
 
     this.game.load.spritesheet('coin', 'images/coin.png', 27, 27, 5);
-    this.game.load.image('healthBox', 'images/healthBox.png');
+    this.game.load.image('healthBox', 'images/health-box.png');
     this.game.load.image('bulletsBox', 'images/bulletsBox.png');
 
     // save box spritesheet

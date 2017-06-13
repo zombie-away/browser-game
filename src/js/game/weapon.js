@@ -49,7 +49,6 @@ Weapon.prototype.update = function() {
 Weapon.prototype.multyFire = function (fireCount) {
     if (this.game.time.time > this.nextFire) {
         this.nextFire = this.game.time.time + this.fireRate;
-        //Костылище
         var fireRate = this.fireRate;
         this.fireRate = 0;
         if (this.fire()) {
