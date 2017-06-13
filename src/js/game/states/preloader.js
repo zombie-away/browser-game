@@ -36,7 +36,7 @@ preloader.preload = function () {
     this.game.load.image('cursor', 'images/cursor.png');
     this.game.load.image('lifePanel', 'images/lifePanel.png');
     this.game.load.image('heartForLifePanel', 'images/heart.png');
-    this.game.load.image('gunForLifePanel', 'images/gunForLifeBar.png');
+    this.game.load.image('gun-panel', 'images/gun-panel.png');
 
     this.game.load.tilemap('map', 'tilemaps/maps/new-lvl1.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('collision-tiles', 'tilemaps/tiles/collision.png', 16, 16);

@@ -72,21 +72,14 @@ function createPlayer(game, player) {
     game.game.camera.follow(player);
 }
 
-function musicPlay(game) {
-    game.input.touch.preventDefault = false;
-    var music = game.add.audio('game');
-
-    music.play();
-}
-
 function addSprite(game, coords, spriteName) {
-    var lifePanel = game.add.sprite(coords.x, coords.y, spriteName);
-    lifePanel.fixedToCamera = true;
-    lifePanel.anchor.setTo(0.5, 0.5);
+    var sprite = game.add.sprite(coords.x, coords.y, spriteName);
+    sprite.fixedToCamera = true;
+    sprite.anchor.setTo(0.5, 0.5);
 }
 
 function createHealthBar(game) {
-    game.healthBar = new HealthBar(game.game, {x: lifePanelConst.healthBarX, y: lifePanelConst.healthBarY});
+    game.healthBar = new HealthBar(game.game, { x: lifePanelConst.healthBarX, y: lifePanelConst.healthBarY });
     game.healthBar.setFixedToCamera(true);
     game.player.onHealthChange.add(function (percent) {
         game.healthBar.setPercent(percent);
@@ -117,10 +110,10 @@ function addText(game, coords, text) {
 }
 
 function createTextPanel(game) {
-    addText(game, {x: 32, y: 40}, "SCOPE");
-    game.scoreTextValue = addText(game, {x: 130, y: 40}, game.score.toString());
-    addText(game, {x: 32, y: 70}, "MONEY");
-    game.moneyTextValue = addText(game, {x: 130, y: 70}, game.money.toString());
+    addText(game, {x: 32, y: 40}, 'Очки');
+    game.scoreTextValue = addText(game, {x: 140, y: 40}, game.score);
+    addText(game, {x: 32, y: 70}, 'Монеты');
+    game.moneyTextValue = addText(game, {x: 140, y: 70}, game.money);
 }
 
 function createHeroPanel(game) {
@@ -130,9 +123,8 @@ function createHeroPanel(game) {
         x: lifePanelConst.gunForLifePanelX,
         y: lifePanelConst.gunForLifePanelY
     };
-    addSprite(game, panelCoordinates, 'lifePanel');
     addSprite(game, heartCoordinates, 'heartForLifePanel');
-    addSprite(game, gunImagesCoordinates, 'gunForLifePanel');
+    addSprite(game, gunImagesCoordinates, 'gun-panel');
     createHealthBar(game);
     createWeaponPanel(game);
 }
