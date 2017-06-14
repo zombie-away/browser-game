@@ -40,7 +40,8 @@ Weapon.prototype.recreate = function(parent) {
 };
 
 Weapon.prototype.update = function() {
-    if (this.game.input.activePointer.leftButton.isDown && this.bulletsInGun > 0) {
+    if (this.game.input.activePointer.leftButton.isDown &&
+        this.bulletsInGun > 0) {
         this.fire();
     }
     this.shots = this.fireLimit - this.bulletsInGun;

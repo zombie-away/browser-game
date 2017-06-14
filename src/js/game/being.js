@@ -4,7 +4,11 @@ var Being = function (game, x, y, key) {
     var body = game.add.sprite(0, 0, key);
     body.anchor.setTo(0.4, 0.5);
     this.addChild(body);
-    this.walkAnimation = this.animations.add('walk', Phaser.Animation.generateFrameNames('legs_', 1, 6, '.png', 4), 10, true, false);
+    this.walkAnimation = this.animations.add(
+        'walk',
+        Phaser.Animation.generateFrameNames('legs_', 1, 6, '.png', 4),
+        10, true, false
+    );
 
     this.anchor.setTo(0.5, 0.5);
     game.physics.enable(this, Phaser.Physics.ARCADE);

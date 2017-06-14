@@ -19,7 +19,8 @@ function hasIntersection(x, y, radius) {
         zombies = Spawner.zombies.children;
     }
     zombies.forEach(function (zombie) {
-        if (Math.abs(zombie.x - x) <= radius && Math.abs(zombie.y - y) <= radius) {
+        if (Math.abs(zombie.x - x) <= radius &&
+            Math.abs(zombie.y - y) <= radius) {
             hasIntersectionFlag = true;
         }
     });

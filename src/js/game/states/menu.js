@@ -1,11 +1,7 @@
 var addMenuOption = require('../../lib/addOption');
 
 var Menu = {
-    preload: function () {
-        this.optionCount = 0;
-    },
-    create: function ()
-    {
+    create: function () {
         this.stage.backgroundColor = "#fff";
         var coords = {
             x: this.game.camera.width / 2,
@@ -22,8 +18,7 @@ var Menu = {
         }.bind(this));
         option.anchor.setTo(0.5);
     },
-    startGame: function ()
-    {
+    startGame: function () {
         this.state.start('game', true, false, 'new');
     },
     continueGame: function () {
