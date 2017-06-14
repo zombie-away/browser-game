@@ -3,7 +3,6 @@ var Stats = require('../../lib/stats.min.js')
   , boot = {};
 
 boot.init = function () {
-    // Тут должен быть scale
 }
 
 boot.preload = function () {

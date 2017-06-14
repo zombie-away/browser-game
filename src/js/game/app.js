@@ -9,9 +9,7 @@ var _ = require('lodash'),
         win: require('./states/win')
     },
     game = new Phaser.Game(properties.size.x, properties.size.y, Phaser.AUTO, 'game');
-    // game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO, 'game');
-    // game = new Phaser.Game('100%', '100%', Phaser.AUTO, 'game');
-
+    
 // Automatically register each state.
 _.each(states, function(state, key) {
     game.state.add(key, state);
